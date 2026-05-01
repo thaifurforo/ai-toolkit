@@ -25,6 +25,6 @@ Each sub-skill contains:
 
 ### Usage
 
-Install with your agent skill manager or copy to `~/.agents/skills/` (Codex) / `~/.claude/skills/` (Claude Code).
+Install with your agent skill manager or copy to `~/.agents/skills/` (Codex, GitHub Copilot CLI, Gemini CLI, Cursor) / `~/.claude/skills/` (Claude Code).
 
 Each skill is self-contained and can be invoked independently.
