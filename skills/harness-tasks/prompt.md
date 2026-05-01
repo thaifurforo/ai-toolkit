@@ -1,7 +1,10 @@
 # Prompt 03 — Breakdown de Tasks
 
-## Superpowers: acione `writing-plans` para persistir em `.milestones/`
-## Superpowers: identifique tasks paralelas → `dispatching-parallel-agents`
+> **Skills Superpowers ([github.com/obra/superpowers](https://github.com/obra/superpowers), opcionais)**
+> Skills especializadas instaláveis em `~/.claude/skills/` (Claude Code) ou `~/.agents/skills/` (demais agentes).
+> - `writing-plans` — persiste o breakdown em `.milestones/` com formato rastreável e links de dependência
+> - `dispatching-parallel-agents` — identifica tasks independentes e as despacha em paralelo para ganho de velocidade
+> Sem elas, salve o breakdown manualmente em `.milestones/` e execute tasks sequencialmente.
 
 > **Integração com `tlc-spec-driven` (Tech Leads Club, opcional)**
 > A skill [`tlc-spec-driven`](https://agent-skills.techleads.club) organiza o desenvolvimento em três fases: **SPECIFY → DESIGN → EXECUTE**.

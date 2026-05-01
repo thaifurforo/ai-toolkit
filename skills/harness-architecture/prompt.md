@@ -1,7 +1,13 @@
 # Prompt 02 — Arquitetura Técnica
 
-## Context7: use para cada biblioteca antes de recomendar
-## Superpowers: `brainstorming` se ainda houver incerteza técnica alta
+> **Context7 ([context7.com](https://context7.com), opcional)**
+> Busca documentação atualizada de bibliotecas diretamente na fonte. Acionar para **cada biblioteca** antes de recomendá-la na arquitetura.
+> Sem ele, consulte a documentação oficial da lib manualmente e verifique a versão mais recente antes de prosseguir.
+
+> **Skills Superpowers ([github.com/obra/superpowers](https://github.com/obra/superpowers), opcionais)**
+> Skills especializadas instaláveis em `~/.claude/skills/` (Claude Code) ou `~/.agents/skills/` (demais agentes).
+> - `brainstorming` — exploração estruturada de alternativas de design quando ainda há incerteza técnica alta; acionar antes de fechar a arquitetura
+> Sem ela, liste e compare as opções diretamente no prompt abaixo.
 
 > **Integração com `tlc-spec-driven` (Tech Leads Club, opcional)**
 > A skill [`tlc-spec-driven`](https://agent-skills.techleads.club) organiza o desenvolvimento em três fases: **SPECIFY → DESIGN → EXECUTE**.

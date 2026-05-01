@@ -1,8 +1,16 @@
 # Prompt 04 — Implementação (Loop Principal)
 
-## Superpowers: `executing-plans`, `test-driven-development`, `systematic-debugging` (se travar)
-## Context7: obrigatório antes de usar qualquer lib externa
-## Superpowers: `verification-before-completion` antes de marcar done
+> **Context7 ([context7.com](https://context7.com), opcional)**
+> Busca documentação atualizada de bibliotecas diretamente na fonte. Acionar **obrigatoriamente** antes de usar qualquer lib externa.
+> Sem ele, consulte a documentação oficial da lib e verifique breaking changes na versão em uso antes de escrever código.
+
+> **Skills Superpowers ([github.com/obra/superpowers](https://github.com/obra/superpowers), opcionais)**
+> Skills especializadas instaláveis em `~/.claude/skills/` (Claude Code) ou `~/.agents/skills/` (demais agentes).
+> - `executing-plans` — executa o plano de tasks com controle de progresso, uma por vez, com commit por task
+> - `test-driven-development` — garante que o teste é escrito antes do código em cada implementação
+> - `systematic-debugging` — ativar quando travar: protocolo de investigação por hipóteses antes de alterar código
+> - `verification-before-completion` — checklist obrigatório antes de marcar qualquer task como concluída
+> Sem elas, siga o sprint contract e os gates definidos no prompt abaixo.
 
 > **Integração com `tlc-spec-driven` (Tech Leads Club, opcional)**
 > A skill [`tlc-spec-driven`](https://agent-skills.techleads.club) organiza o desenvolvimento em três fases: **SPECIFY → DESIGN → EXECUTE**.

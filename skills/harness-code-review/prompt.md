@@ -1,6 +1,10 @@
 # Prompt 05 — Code Review (Sensor Inferencial)
 
-## Superpowers: `requesting-code-review` (preparar PR) + `receiving-code-review` (processar feedback)
+> **Skills Superpowers ([github.com/obra/superpowers](https://github.com/obra/superpowers), opcionais)**
+> Skills especializadas instaláveis em `~/.claude/skills/` (Claude Code) ou `~/.agents/skills/` (demais agentes).
+> - `requesting-code-review` — prepara o PR com contexto estruturado para facilitar a revisão humana
+> - `receiving-code-review` — processa feedback de revisão de forma sistemática: classifica, prioriza e resolve comentários
+> Sem elas, use o checklist de 6 dimensões e o formato de descrição de PR definidos no prompt abaixo.
 
 > **Integração com `tlc-spec-driven` (Tech Leads Club, opcional)**
 > A skill [`tlc-spec-driven`](https://agent-skills.techleads.club) organiza o desenvolvimento em três fases: **SPECIFY → DESIGN → EXECUTE**.

@@ -1,6 +1,10 @@
 # Prompt 09 — Iteração com Feedback (Steering Loop)
 
-## Superpowers: `brainstorming` para gerar hipóteses a partir dos dados
+> **Skills Superpowers ([github.com/obra/superpowers](https://github.com/obra/superpowers), opcionais)**
+> Skills especializadas instaláveis em `~/.claude/skills/` (Claude Code) ou `~/.agents/skills/` (demais agentes).
+> - `brainstorming` — geração estruturada de hipóteses a partir dos dados de produção antes de decidir o próximo ciclo
+> Sem ela, liste as hipóteses manualmente e priorize por impacto × esforço no prompt abaixo.
+
 ## Princípio: cada problema recorrente vira um guia ou sensor novo no harness
 
 > **Integração com `tlc-spec-driven` (Tech Leads Club, opcional)**
