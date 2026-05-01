@@ -20,36 +20,13 @@ Cada ferramenta aqui nasceu de um problema real: como garantir que um agente de 
 
 ### [`skills/`](./skills/) — AI Agent Skills
 
-Skills no padrão [agentskills.io](https://agentskills.io), compatíveis com Claude Code, GitHub Copilot CLI, Codex e outros agentes.
+Skills no padrão [agentskills.io](https://agentskills.io), compatíveis com Claude Code, GitHub Copilot CLI, Codex, Gemini CLI, Cursor e outros agentes.
 
-#### 🏗️ harness-engineering — Pipeline completo de desenvolvimento
+| Skill | Descrição |
+|-------|-----------|
+| [harness-engineering](./skills/harness-engineering/) | Pipeline completo de desenvolvimento com IA em 9 etapas (orquestrador + sub-skills) |
 
-Pipeline de 9 etapas baseado nas práticas de **Harness Engineering** da Anthropic, OpenAI e Thoughtworks/Martin Fowler. Transforma uma ideia em software confiável combinando **guias (feedforward)** e **sensores (feedback)** que permitem autocorreção antes de chegar ao humano.
-
-```
-harness-engineering (orquestrador)
-│
-├── harness-prd            → PRD interativo com ProductBuddy
-├── harness-architecture   → Arquitetura técnica + harnessability map
-├── harness-tasks          → Breakdown de tasks com rastreabilidade RF → US → CA → T
-├── harness-implementation → Implementação com TDD + sprint contract + Context7
-├── harness-code-review    → Code review como sensor inferencial (6 dimensões)
-├── harness-testing        → Testes unitários, integração, contrato e estruturais
-├── harness-documentation  → Documentação como sistema de record (.catalog/)
-├── harness-cicd           → CI/CD shift-left + garbage collection automático
-└── harness-iteration      → Steering loop: feedback de produção → melhorias do harness
-```
-
-**Por que é diferente?** A maioria dos prompts de IA foca em "escrever código mais rápido". Este pipeline foca em **estrutura ao redor do agente**: linters com remediação inline, sensores computacionais em cada commit, rastreabilidade de requisitos até os testes, e um loop de melhoria contínua do próprio harness.
-
-**Como usar:**
-```bash
-# Claude Code
-cp -r skills/harness-* ~/.claude/skills/
-
-# Codex / GitHub Copilot CLI / Gemini CLI / Cursor
-cp -r skills/harness-* ~/.agents/skills/
-```
+→ Documentação completa das skills em [`skills/README.md`](./skills/README.md)
 
 ---
 
@@ -69,19 +46,9 @@ Acredito que o maior ganho com IA no desenvolvimento não vem de substituir o en
 
 ## 🛠️ Stack de referência
 
-As skills e ferramentas são projetadas para funcionar com qualquer stack, mas o autor usa principalmente:
+As skills e ferramentas são projetadas para funcionar com qualquer stack, mas a autora usa principalmente:
 
 `TypeScript · .NET/C# · React · PostgreSQL · GitHub Actions · Docker · Google Cloud Run`
-
----
-
-## 📖 Fontes e inspirações
-
-- [Harness Engineering — Martin Fowler + Böckeler](https://martinfowler.com/articles/harness-engineering.html)
-- [Harness Engineering — OpenAI Engineering Blog](https://openai.com/index/harness-engineering/)
-- [Harness Design for Long-Running Apps — Anthropic](https://www.anthropic.com/engineering/harness-design-long-running-apps)
-- [Superpowers — Agentic skills framework](https://github.com/obra/superpowers)
-- [agentskills.io — Skill specification](https://agentskills.io/specification)
 
 ---
 
