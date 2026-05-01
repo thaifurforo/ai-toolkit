@@ -100,4 +100,4 @@ Este é um repositório pessoal, mas PRs com melhorias, correções ou novas ski
 
 ---
 
-<sub>MIT License · Feito com ☕ e muito `git commit`</sub>
+<sub>MIT License · Feito com 🍫 e muito `git commit`</sub>
