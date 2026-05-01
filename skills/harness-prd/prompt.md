@@ -1,7 +1,15 @@
 # Prompt 01 — PRD (ProductBuddy)
 
-## Fase TLC: SPECIFY
-## Superpowers: acione `brainstorming` antes se o escopo estiver indefinido
+> **Skills Superpowers ([github.com/obra/superpowers](https://github.com/obra/superpowers), opcionais)**
+> Skills especializadas instaláveis em `~/.claude/skills/` (Claude Code) ou `~/.agents/skills/` (demais agentes).
+> - `brainstorming` — exploração estruturada do problema quando o escopo ainda está indefinido; acionar **antes** de iniciar o PRD
+> Sem ela, defina escopo e persona com o usuário diretamente no prompt abaixo.
+
+> **Integração com `tlc-spec-driven` (Tech Leads Club, opcional)**
+> A skill [`tlc-spec-driven`](https://agent-skills.techleads.club) organiza o desenvolvimento em três fases: **SPECIFY → DESIGN → EXECUTE**.
+> Esta etapa corresponde à fase **SPECIFY**.
+> Se tiver a skill instalada, acione-a após concluir o PRD para iniciar o ciclo.
+> Sem ela, siga direto para `harness-architecture`.
 
 ---
 

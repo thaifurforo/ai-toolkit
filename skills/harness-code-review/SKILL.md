@@ -40,7 +40,10 @@ description: Use quando for revisar código antes de abrir um PR, ou ao processa
 
 Quando um PR está aberto e a ferramenta configurada é GitHub, o GitHub Copilot pode postar comentários de revisão nas diff lines. **Se aplicável, processá-los antes da Etapa 05 estar completa:**
 
-1. Usar `github-mcp-server-pull_request_read` com `method: get_review_comments`
+1. Buscar comentários de revisão na ordem de preferência:
+   - **gh CLI:** `gh pr view <número> --comments` ou `gh api repos/{owner}/{repo}/pulls/{number}/comments`
+   - **MCP:** `github-mcp-server-pull_request_read` com `method: get_review_comments`
+   - **API REST:** `GET /repos/{owner}/{repo}/pulls/{number}/comments` com `GITHUB_TOKEN`
 2. Para cada comentário do Copilot: classificar severidade → corrigir Blockers/Majors → documentar decisões Minor
 3. Verificar threads resolvidos (`isResolved: true`)
 4. Iterar até não haver Blocker/Major aberto

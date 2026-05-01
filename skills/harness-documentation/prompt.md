@@ -1,7 +1,11 @@
 # Prompt 07 — Documentação Técnica
 
-## Fase TLC: EXECUTE → validate
 ## Documentação é para agentes tanto quanto para humanos
+
+> **Integração com `tlc-spec-driven` (Tech Leads Club, opcional)**
+> A skill [`tlc-spec-driven`](https://agent-skills.techleads.club) organiza o desenvolvimento em três fases: **SPECIFY → DESIGN → EXECUTE**.
+> Esta etapa corresponde ao gate **EXECUTE → validate**: documentação como critério de conclusão, não como pós-entrega.
+> Sem a skill instalada, use o prompt abaixo e atualize `.catalog/` antes de considerar a task concluída.
 
 ---
 

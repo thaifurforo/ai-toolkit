@@ -1,7 +1,11 @@
 # Prompt 08 — CI/CD, Sensores e Garbage Collection
 
-## Fase TLC: EXECUTE (infra)
 ## Objetivo: codificar todos os sensores computacionais e inferenciais no pipeline
+
+> **Integração com `tlc-spec-driven` (Tech Leads Club, opcional)**
+> A skill [`tlc-spec-driven`](https://agent-skills.techleads.club) organiza o desenvolvimento em três fases: **SPECIFY → DESIGN → EXECUTE**.
+> Esta etapa corresponde à fase **EXECUTE (infra)**: automação dos sensores no pipeline de CI/CD.
+> Sem a skill instalada, use o prompt abaixo para configurar os gates manualmente no workflow.
 
 ---
 
