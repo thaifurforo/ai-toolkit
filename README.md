@@ -47,7 +47,7 @@ harness-engineering (orquestrador)
 # Claude Code
 cp -r skills/harness-* ~/.claude/skills/
 
-# Codex / GitHub Copilot CLI
+# Codex / GitHub Copilot CLI / Gemini CLI / Cursor
 cp -r skills/harness-* ~/.agents/skills/
 ```
 
