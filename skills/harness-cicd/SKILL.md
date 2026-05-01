@@ -1,62 +1,62 @@
 ---
 name: harness-cicd
-description: Use when configuring CI/CD pipelines, automating sensors, or setting up continuous quality gates. Triggers on "CI/CD", "pipeline", "deploy", "monitoramento", "configurar sensores". This stage codifies all computational and inferential sensors into automated workflows.
+description: Use quando for configurar pipelines de CI/CD, automatizar sensores ou criar quality gates contínuos. Ativado por "CI/CD", "pipeline", "deploy", "monitoramento", "configurar sensores". Esta etapa codifica todos os sensores computacionais e inferenciais em workflows automatizados.
 ---
 
-# Harness: CI/CD & Continuous Sensors (Stage 08)
+# Harness: CI/CD e Sensores Contínuos (Etapa 08)
 
 **Persona:** Engenheiro de DevOps / Platform Engineering.
 
-## Core Principle: Shift-Left
+## Princípio Central: Shift-Left
 
-The earlier a sensor detects a problem, the cheaper the fix:
+Quanto mais cedo um sensor detecta um problema, mais barato é corrigir:
 ```
 Custo de correção:
   pre-commit < pre-push < CI por PR < pós-merge < produção
 ```
 
-## Sensor Architecture (5 Layers)
+## Arquitetura de Sensores (5 Camadas)
 
 ```
-Layer 1 — Pre-commit (seconds):  lint + type-check + unit tests
-Layer 2 — Pre-push (minutes):    integration tests + structural analysis
-Layer 3 — CI per PR (minutes):   all above + security scan + build + AI review
-Layer 4 — Post-merge CI:         all above + mutation testing + full arch review
-Layer 5 — Scheduled (weekly):    dead code + stale docs + dependency audit + GC PR
+Camada 1 — Pré-commit (segundos):  lint + type-check + testes unitários
+Camada 2 — Pré-push (minutos):     testes de integração + análise estrutural
+Camada 3 — CI por PR (minutos):    todas acima + security scan + build + AI review
+Camada 4 — CI pós-merge:           todas acima + mutation testing + arch review completo
+Camada 5 — Agendado (semanal):     código morto + docs obsoletas + audit de deps + PR de GC
 ```
 
-## CI Pipeline Gates (per PR)
+## Gates do Pipeline de CI (por PR)
 
 ```yaml
 gates:
-  - lint          # fails fast — before everything
-  - type-check    # ditto
-  - unit-tests    # with coverage report
-  - integration   # with testcontainers or in-memory DB
-  - structural    # dependency-cruiser / ArchUnit (layer violations)
+  - lint          # falha rápida — antes de tudo
+  - type-check    # idem
+  - unit-tests    # com relatório de cobertura
+  - integration   # com testcontainers ou DB em memória
+  - structural    # dependency-cruiser / ArchUnit (violações de camada)
   - security      # npm audit / trivy
-  - build         # compilable artifact
-  - review-agent  # inferential sensor (AI code review)
+  - build         # artefato compilável
+  - review-agent  # sensor inferencial (code review por IA)
 ```
 
-**Linter error messages must include inline remediation instructions.** Not just the violation — also how to fix it.
+**Mensagens de erro do linter devem incluir instruções de remediação inline.** Não apenas a violação — também como corrigir.
 
-## Deploy Strategy
+## Estratégia de Deploy
 
-| Event | Environment | Action |
-|-------|-------------|--------|
-| PR targeting `main` | nonprd (staging) | Automatic deploy |
-| Push to `main` | production | Deploy after manual approval |
-| Deploy failed | any | Automatic rollback + alert |
+| Evento | Ambiente | Ação |
+|--------|----------|------|
+| PR apontando para `main` | nonprd (staging) | Deploy automático |
+| Push para `main` | produção | Deploy após aprovação manual |
+| Deploy com falha | qualquer | Rollback automático + alerta |
 
-## Garbage Collection Sensor (OpenAI pattern)
+## Sensor de Garbage Collection (padrão OpenAI)
 
-Weekly scheduled workflow that:
-- Scans dead code, redundant tests, stale documentation
-- Automatically opens cleanup PRs
-- Keeps technical debt as "small continuous payments" instead of large recessions
+Workflow agendado semanalmente que:
+- Escaneia código morto, testes redundantes, documentação obsoleta
+- Abre PRs de limpeza automaticamente
+- Mantém a dívida técnica como "pagamentos contínuos pequenos" em vez de grandes recessões
 
-## Healthcheck Endpoint
+## Endpoint de Healthcheck
 
 ```typescript
 // GET /health
@@ -68,14 +68,14 @@ Weekly scheduled workflow that:
 }
 ```
 
-Alerts: error rate >1% for 5min → alert; P95 latency >[threshold]ms → alert; deploy failed → rollback.
+Alertas: taxa de erro >1% por 5min → alerta; P95 latência >[threshold]ms → alerta; deploy com falha → rollback.
 
-## Expected Output
+## Saída Esperada
 
-CI/CD workflows + Dockerfile (multi-stage) + env vars documented + healthcheck + GC scheduled sensor.
+Workflows de CI/CD + Dockerfile (multi-stage) + env vars documentadas + healthcheck + sensor de GC agendado.
 
-## Next Step → Deploy → Monitor → `harness-iteration`
+## Próximo Passo → Deploy → Monitorar → `harness-iteration`
 
 ---
 
-**Full prompt template:** See `./prompt.md`
+**Template completo de prompt:** Ver `./prompt.md`

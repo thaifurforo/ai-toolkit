@@ -1,84 +1,87 @@
 ---
 name: harness-testing
-description: Use when generating or auditing automated tests for a feature or task. Triggers on "gerar testes", "cobertura", "testar", "testes automatizados". This stage produces the computational sensors of the harness.
+description: Use quando for gerar ou auditar testes automatizados de uma feature ou task. Ativado por "gerar testes", "cobertura", "testar", "testes automatizados". Esta etapa produz os sensores computacionais do harness.
 ---
 
-# Harness: Testing (Stage 06)
+# Harness: Testes (Etapa 06)
 
 **Persona:** QA Engineer.
 
-## Integrations
+## Integrações
 
-- **`test-driven-development`** skill — write tests first (invoke during implementation too)
-- **`verification-before-completion`** skill before marking the stage done
-- **`finishing-a-development-branch`** skill after this stage — finalizes the branch for PR
+> Verificar disponibilidade antes de usar (consultar `harness.config.yaml`).
+> Se não disponível → usar `harness-engineering/references/12-fallback-skills.md`.
 
-## Shift-Left Placement
+- **`test-driven-development`** *(se disponível)* — escrever testes antes (invocar também durante implementação); *fallback: `12-fallback-skills.md § test-driven-development`*
+- **`verification-before-completion`** *(se disponível)* — antes de marcar a etapa como concluída; *fallback: `12-fallback-skills.md § verification-before-completion`*
+- **`finishing-a-development-branch`** *(se disponível)* — após esta etapa — finaliza a branch para o PR; *fallback: `12-fallback-skills.md § finishing-a-development-branch`*
+
+## Posicionamento Shift-Left
 
 ```
-pre-commit:  unit tests (fast, deterministic)
-pre-push:    integration tests
-CI (per PR): integration + structural + contract
-CI weekly:   mutation testing
+pré-commit:    testes unitários (rápidos, determinísticos)
+pré-push:      testes de integração
+CI (por PR):   integração + estruturais + contrato
+CI semanal:    mutation testing
 ```
 
-## Test Types to Generate
+## Tipos de Teste a Gerar
 
-### 1. Unit Tests (pre-commit)
-- Each function/method in isolation, mocked dependencies
-- Per CA: happy path + expected failure + boundary case
+### 1. Testes Unitários (pré-commit)
+- Cada função/método em isolamento, dependências mockadas
+- Por CA: happy path + falha esperada + caso limite
 
-Structure:
+Estrutura:
 ```
-describe('[Module]', () => {
-  describe('CA-01: [criterion]', () => {
-    it('should [behavior] when [condition]', ...)
-    it('should [failure] when [invalid condition]', ...)
-    it('should [edge case] when [boundary value]', ...)
+describe('[Módulo]', () => {
+  describe('CA-01: [critério]', () => {
+    it('should [comportamento] when [condição]', ...)
+    it('should [falha] when [condição inválida]', ...)
+    it('should [caso limite] when [valor limite]', ...)
   });
 });
 ```
 
-### 2. Integration Tests (CI per PR)
-- Full flow: controller → service → repository
-- In-memory DB or testcontainers
+### 2. Testes de Integração (CI por PR)
+- Fluxo completo: controller → service → repository
+- DB em memória ou testcontainers
 
-### 3. API Contract Tests (CI per PR)
-- Correct status codes per scenario
-- Response shape (mandatory fields, types)
-- Behavior with invalid input
+### 3. Testes de Contrato de API (CI por PR)
+- Status codes corretos por cenário
+- Shape do response (campos obrigatórios, tipos)
+- Comportamento com input inválido
 
-### 4. Structural Tests (CI per PR) ⭐ most important for harnessability
+### 4. Testes Estruturais (CI por PR) ⭐ mais importantes para harnessability
 
-Verify that layers only depend in the allowed direction. Configure per violation:
-- Automatically detected
-- Error message includes inline remediation instruction
-- CI blocks on violation
+Verificar que as camadas dependem apenas na direção permitida. Configurar por violação:
+- Detectado automaticamente
+- Mensagem de erro inclui instrução de remediação inline
+- CI bloqueia em caso de violação
 
-## CA Coverage Matrix
+## Matriz de Cobertura por CA
 
-| CA | ✅ Happy path | ❌ Expected failure | ⚠️ Boundary |
-|----|--------------|---------------------|-------------|
+| CA | ✅ Happy path | ❌ Falha esperada | ⚠️ Caso limite |
+|----|--------------|-------------------|----------------|
 | CA-01 | | | |
 | CA-02 | | | |
 
-## Test Rules
+## Regras de Teste
 
-- Names: `should [behavior] when [condition]` — no vague names
-- Structure: Arrange → Act → Assert (blank line between)
-- Test observable behaviors, not internal implementation
-- Mocks reset between tests (`beforeEach`)
-- No `any` in TypeScript tests
-- Tests must not depend on execution order
+- Nomes: `should [comportamento] when [condição]` — sem nomes vagos
+- Estrutura: Arrange → Act → Assert (linha em branco entre cada parte)
+- Teste comportamentos observáveis, não implementação interna
+- Mocks resetados entre testes (`beforeEach`)
+- Nenhum `any` em testes TypeScript
+- Testes não devem depender de ordem de execução
 
-## Expected Output
+## Saída Esperada
 
-Complete test suite + structural tests configured + CA traceability + all gates verified.
+Suíte completa + testes estruturais configurados + rastreabilidade por CA + todos os gates verificados.
 
-## Next Step → `harness-documentation`
+## Próximo Passo → `harness-documentation`
 
-Then: invoke `finishing-a-development-branch` → open PR → documentation update.
+Em seguida: invocar `finishing-a-development-branch` → abrir PR → atualizar documentação.
 
 ---
 
-**Full prompt template:** See `./prompt.md`
+**Template completo de prompt:** Ver `./prompt.md`

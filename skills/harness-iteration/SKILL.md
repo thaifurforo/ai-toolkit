@@ -1,81 +1,84 @@
 ---
 name: harness-iteration
-description: Use when analyzing production feedback to plan the next development cycle. Triggers on "analisar feedback", "próximo ciclo", "o que melhorar", "retrospectiva", "dados de uso". This closes the steering loop and restarts the pipeline.
+description: Use quando for analisar feedback de produção para planejar o próximo ciclo de desenvolvimento. Ativado por "analisar feedback", "próximo ciclo", "o que melhorar", "retrospectiva", "dados de uso". Esta etapa fecha o steering loop e reinicia o pipeline.
 ---
 
-# Harness: Iteration with Feedback (Stage 09)
+# Harness: Iteração com Feedback (Etapa 09)
 
 **Persona:** Product analyst + tech lead.
 
-## Integrations
+## Integrações
 
-- **`brainstorming`** skill to generate hypotheses from data
-- **TLC:** this stage restarts `SPECIFY` → feeds into `harness-prd` or `harness-tasks`
+> Verificar disponibilidade antes de usar (consultar `harness.config.yaml`).
+> Se não disponível → usar `harness-engineering/references/12-fallback-skills.md`.
 
-## Core Principle: Steering Loop (Fowler pattern)
+- **`brainstorming`** *(se disponível)* — para gerar hipóteses a partir dos dados; *fallback: `12-fallback-skills.md § brainstorming`*
+- **`tlc-spec-driven`** *(se disponível)* — esta etapa reinicia `SPECIFY` → alimenta `harness-prd` ou `harness-tasks`
 
-> **If a problem happened twice, codify the fix in the harness.**
-> Never let the same error happen a third time without it becoming a rule or sensor.
+## Princípio Central: Steering Loop (padrão Fowler)
 
-Both production errors AND agent development errors feed into harness improvements.
+> **Se um problema aconteceu duas vezes, codifique a solução no harness.**
+> Nunca deixe o mesmo erro acontecer uma terceira vez sem ter virado uma regra ou sensor.
 
-## What to Analyze
+Tanto erros de produção quanto erros do agente durante o desenvolvimento alimentam melhorias do harness.
 
-- Qualitative feedback (support tickets, NPS, user interviews)
-- Quantitative data (funnels, analytics, events, heatmaps)
-- Production errors (logs, error rates, most frequent failures)
-- Agent errors during development (what went wrong repeatedly in the pipeline?)
-- Team retrospective
+## O Que Analisar
 
-## What to Produce
+- Feedback qualitativo (tickets de suporte, NPS, entrevistas com usuários)
+- Dados quantitativos (funis, analytics, eventos, heatmaps)
+- Erros de produção (logs, taxas de erro, falhas mais frequentes)
+- Erros do agente durante o desenvolvimento (o que deu errado repetidamente no pipeline?)
+- Retrospectiva da equipe
 
-### 1. Top 5 Feedback Patterns
-Per pattern: title, frequency, evidence, type (Bug/UX/Feature request/Performance/Product confusion), estimated impact.
+## O Que Produzir
 
-### 2. Metrics Gap vs. Original PRD
-Table: Metric | Goal | Real | Gap | Root cause hypothesis
+### 1. Top 5 Padrões de Feedback
+Por padrão: título, frequência, evidências, tipo (Bug/UX/Feature request/Performance/Confusão de produto), impacto estimado.
 
-### 3. Prioritized Backlog (top 5)
-Per item: type, user impact, effort estimate, hypothesis, next step (Quick fix / New US / Spike / New PRD).
+### 2. Gap de Métricas vs. PRD Original
+Tabela: Métrica | Meta | Real | Gap | Hipótese de causa raiz
 
-### 4. Steering Loop — Harness Improvements
-For each recurring problem:
+### 3. Backlog Priorizado (top 5)
+Por item: tipo, impacto no usuário, estimativa de esforço, hipótese, próximo passo (Quick fix / Nova US / Spike / Novo PRD).
+
+### 4. Steering Loop — Melhorias do Harness
+Para cada problema recorrente:
 ```
-Problema recorrente: [description]
+Problema recorrente: [descrição]
 Ocorreu quantas vezes: [N]
 Tipo de controle necessário:
-  [ ] Guia (feedforward) — agent needs more context before acting
-  [ ] Sensor computacional — linter/test/structural check
-  [ ] Sensor inferencial — AI code review with specific criterion
-  [ ] Documentação — something that should be in AGENTS.md or .catalog/
+  [ ] Guia (feedforward) — agente precisa de mais contexto antes de agir
+  [ ] Sensor computacional — linter/teste/structural check
+  [ ] Sensor inferencial — code review por IA com critério específico
+  [ ] Documentação — algo que deveria estar em AGENTS.md ou .catalog/
 
 Ação concreta:
-  - Add rule to AGENTS.md: "[rule]"
-  - Create/update linter: "[rule with inline remediation]"
-  - Add structural test: "[what to verify]"
-  - Update .catalog/: "[what to document]"
+  - Adicionar regra em AGENTS.md: "[regra]"
+  - Criar/atualizar linter: "[regra com remediação inline]"
+  - Adicionar teste estrutural: "[o que verificar]"
+  - Atualizar .catalog/: "[o que documentar]"
 ```
 
-### 5. Route Decision
+### 5. Decisão de Rota
 
-| Decision | When | Next step |
-|----------|------|-----------|
-| 🔁 Iterar | Feature on track, incremental adjustments | → `harness-tasks` with prioritized backlog |
-| 🔄 Pivotar | Wrong hypothesis, need rethinking | → `harness-prd` with learnings as context |
-| ✅ Consolidar | Stable feature | → update `.catalog/concerns.md` + next feature |
+| Decisão | Quando | Próximo passo |
+|---------|--------|---------------|
+| 🔁 Iterar | Feature no caminho certo, ajustes incrementais | → `harness-tasks` com backlog priorizado |
+| 🔄 Pivotar | Hipótese errada, precisa repensar | → `harness-prd` com aprendizados como contexto |
+| ✅ Consolidar | Feature estável | → atualizar `.catalog/concerns.md` + próxima feature |
 
-If iterating or pivoting: produce a **mini-PRD update** with revised problem, new/changed stories, revised metrics.
+Se iterar ou pivotar: produzir uma **atualização de mini-PRD** com problema revisado, stories novas/alteradas, métricas revisadas.
 
-## Expected Output
+## Saída Esperada
 
-Feedback patterns + metrics gap + backlog + harness improvements + route decision + mini-PRD if needed.
+Padrões de feedback + gap de métricas + backlog + melhorias do harness + decisão de rota + mini-PRD se necessário.
 
-## Cycle Restart
+## Reinício do Ciclo
 
 🔁 Iterar → `harness-tasks`
 🔄 Pivotar → `harness-prd`
-✅ Consolidar → `.catalog/concerns.md` updated + next feature
+✅ Consolidar → `.catalog/concerns.md` atualizado + próxima feature
 
 ---
 
-**Full prompt template:** See `./prompt.md`
+**Template completo de prompt:** Ver `./prompt.md`

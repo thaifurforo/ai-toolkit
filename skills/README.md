@@ -15,6 +15,11 @@ Pipeline de 9 etapas baseado nas práticas de **Harness Engineering** da Anthrop
 
 ```
 harness-engineering/       ← orquestrador: mental model, tabela de etapas, fluxos
+├── references/             ← referências internas (setup, tracking, templates, fallbacks)
+│   ├── 00-setup-wizard.md      ← wizard de setup: gera harness.config.yaml
+│   ├── 10-documentacao-entregas.md ← templates canônicos de entrega
+│   ├── 11-project-tracking.md  ← como persistir por ferramenta (GitHub/Jira/Linear/ADO)
+│   └── 12-fallback-skills.md   ← conteúdo condensado de 14 skills externas
 ├── harness-prd/            ← 01. PRD com ProductBuddy (SPECIFY)
 ├── harness-architecture/   ← 02. Arquitetura técnica + harnessability map (DESIGN)
 ├── harness-tasks/          ← 03. Breakdown de tasks + dependency map (TASKS)
@@ -35,6 +40,7 @@ Cada sub-skill contém:
 | Skill | Etapa | O que faz |
 |-------|-------|-----------|
 | [harness-engineering](./harness-engineering/) | Orquestrador | Mental model, tabela de etapas, fluxos de invocação — delega para sub-skills |
+| *(referência interna)* | 00 · SETUP | Wizard interativo: gera `harness.config.yaml` com stack, ferramenta de tracking e skills disponíveis |
 | [harness-prd](./harness-prd/) | 01 · SPECIFY | PRD interativo com ProductBuddy: visão, personas, RFs, NFRs, restrições |
 | [harness-architecture](./harness-architecture/) | 02 · DESIGN | Arquitetura técnica + harnessability map: onde o agente vai precisar de guias/sensores |
 | [harness-tasks](./harness-tasks/) | 03 · TASKS | Breakdown de tasks com rastreabilidade RF → US → CA → T + dependency map |
@@ -42,7 +48,7 @@ Cada sub-skill contém:
 | [harness-code-review](./harness-code-review/) | 05 · VERIFY | Code review em 6 dimensões como sensor inferencial antes do PR |
 | [harness-testing](./harness-testing/) | 06 · TEST | Testes unitários, integração, contrato e estruturais como sensores computacionais |
 | [harness-documentation](./harness-documentation/) | 07 · DOCUMENT | Documentação em `.catalog/` como sistema de record rastreável |
-| [harness-cicd](./harness-cicd/) | 08 · SHIP | CI/CD shift-left: sensors automáticos + garbage collection de código morto |
+| [harness-cicd](./harness-cicd/) | 08 · SHIP | CI/CD shift-left: sensores automáticos + garbage collection de código morto |
 | [harness-iteration](./harness-iteration/) | 09 · ITERATE | Steering loop: feedback de produção → melhorias do harness |
 
 ### O conceito central: Guias + Sensores
@@ -52,6 +58,19 @@ Cada sub-skill contém:
 | **Guias (feedforward)** | Antes de agir | PRD, arquitetura, AGENTS.md, linters com remediação inline |
 | **Sensores computacionais** | A cada commit | Testes, type check, análise estrutural de camadas |
 | **Sensores inferenciais** | Antes do PR / no CI | Code review por IA, mutation testing |
+
+### harness.config.yaml — configuração do pipeline
+
+Na primeira invocação em um novo projeto, o orquestrador executa um wizard interativo (`references/00-setup-wizard.md`) e gera um `harness.config.yaml` na raiz do projeto. Este arquivo configura:
+
+- **`project_tracking.tool`** — ferramenta de rastreamento: `github` (Issues + Milestones), `jira`, `linear`, `azuredevops` ou `local` (markdown)
+- **`hierarchy`** — nomenclatura de níveis: padrão `epic > user-story > task`, configurável para `milestone > story > task`, `sprint > feature > subtask` etc.
+- **`delivery_docs.path`** — pasta para docs de entrega (padrão: `.milestones/`)
+- **`skills`** — quais skills externas estão disponíveis (`tlc_spec_driven`, `context7`, `superpowers`, `mermaid_studio`)
+
+### Sistema de fallback para skills externas
+
+Quando uma skill externa (Superpowers, Context7, TLC) **não estiver instalada**, o pipeline não para — usa o conteúdo condensado de `references/12-fallback-skills.md`, que contém os princípios e processos essenciais de 14 skills externas.
 
 ### Design: orquestrador slim (padrão superpowers)
 

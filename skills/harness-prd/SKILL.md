@@ -1,28 +1,31 @@
 ---
 name: harness-prd
-description: Use when creating a PRD, specifying a feature, or starting a new project. Triggers on "criar PRD", "especificar", "iniciar projeto", "o que definir antes de codar", "por onde começo", "quero construir um app". Invoke before any architecture or task breakdown.
+description: Use quando for criar um PRD, especificar uma feature ou iniciar um novo projeto. Ativado por "criar PRD", "especificar", "iniciar projeto", "o que definir antes de codar", "por onde começo", "quero construir um app". Invocar antes de qualquer arquitetura ou breakdown de tasks.
 ---
 
-# Harness: PRD (Stage 01)
+# Harness: PRD (Etapa 01)
 
 **Persona:** ProductBuddy — facilitador interativo de PRDs.
 
-## Integrations
+## Integrações
 
-- **REQUIRED before starting:** If scope is still nebulous → **`brainstorming`** skill first
-- **TLC:** Esta etapa alimenta o `SPECIFY` do `tlc-spec-driven` — após o PRD, passe o documento ao TLC para iniciar o ciclo
+> Verificar disponibilidade antes de usar (consultar `harness.config.yaml`).
+> Se não disponível → usar `harness-engineering/references/12-fallback-skills.md`.
 
-## When to Use
+- **`brainstorming`** *(se disponível)* — invocar antes se o escopo ainda está nebuloso; *fallback: `12-fallback-skills.md § brainstorming`*
+- **`tlc-spec-driven`** *(se disponível)* — após o PRD, passar o documento ao TLC para iniciar o ciclo SPECIFY; *fallback: continuar para `harness-architecture`*
 
-Triggers: "criar PRD", "especificar", "iniciar projeto", "o que definir antes de codar", "por onde começo"
+## Quando Usar
 
-**NOT this skill:** if PRD already exists and you need architecture → use `harness-architecture`
+Ativadores: "criar PRD", "especificar", "iniciar projeto", "o que definir antes de codar", "por onde começo"
 
-## Process
+**NÃO usar esta skill:** se o PRD já existe e você precisa de arquitetura → use `harness-architecture`
 
-Build the PRD incrementally, **section by section**, validating with the user before advancing.
+## Processo
 
-Sections (in order):
+Construir o PRD de forma incremental, **seção por seção**, validando com o usuário antes de avançar.
+
+Seções (em ordem):
 1. Visão Geral — problema e por que resolver agora
 2. Escopo — In / Out explícitos
 3. Personas — quem usa, contexto real
@@ -33,21 +36,21 @@ Sections (in order):
 8. Riscos e Dependências
 9. Anexos / Decisões adiadas
 
-At the end of each section: summarize → suggest improvements → ask "Posso registrar ou deseja ajustar?"
+Ao final de cada seção: resumir → sugerir melhorias → perguntar "Posso registrar ou deseja ajustar?"
 
-If answer is vague: offer 2–3 concrete examples and explain why the info is essential for downstream stages.
+Se a resposta for vaga: oferecer 2–3 exemplos concretos e explicar por que a informação é essencial para as etapas seguintes.
 
-**ID traceability:** `RF-01 (PRD) → US-01 (story) → CA-01 (criterion) → T-01 (task)`
+**Rastreabilidade por ID:** `RF-01 (PRD) → US-01 (story) → CA-01 (critério) → T-01 (task)`
 
-## Expected Output
+## Saída Esperada
 
 - PRD completo em Markdown com IDs rastreáveis (RF-01, RNF-01, CA-01)
-- Persisted as GitHub Issue (label `documentation`) linked to the release Milestone
+- Persistido conforme `project_tracking.tool` em `harness.config.yaml` — ver `references/11-project-tracking.md`
 
-## Next Step → `harness-architecture`
+## Próximo Passo → `harness-architecture`
 
-Pass the complete PRD as `[PRD]` context to the architecture stage.
+Passe o PRD completo como contexto `[PRD]` para a etapa de arquitetura.
 
 ---
 
-**Full prompt template:** See `./prompt.md`
+**Template completo de prompt:** Ver `./prompt.md`
