@@ -76,3 +76,5 @@ Ou instale via seu gerenciador de skills de agente.
 - [Anthropic — Harness Design for Long-Running Application Development](https://www.anthropic.com/engineering/harness-design-long-running-apps)
 - [Superpowers — Agentic skills framework](https://github.com/obra/superpowers)
 - [agentskills.io — Skill specification](https://agentskills.io/specification)
+- [Gnios — Antes de qualquer ferramenta: como documentar seu projeto para a IA](https://gnios.github.io/blog/)
+- [Tech Leads Club — Agent Skills Marketplace](https://agent-skills.techleads.club/)
