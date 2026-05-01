@@ -1,7 +1,12 @@
 # Prompt 01 — PRD (ProductBuddy)
 
-## Fase TLC: SPECIFY
 ## Superpowers: acione `brainstorming` antes se o escopo estiver indefinido
+
+> **Integração com `tlc-spec-driven` (Tech Leads Club, opcional)**
+> A skill [`tlc-spec-driven`](https://agent-skills.techleads.club) organiza o desenvolvimento em três fases: **SPECIFY → DESIGN → EXECUTE**.
+> Esta etapa corresponde à fase **SPECIFY**.
+> Se tiver a skill instalada, acione-a após concluir o PRD para iniciar o ciclo.
+> Sem ela, siga direto para `harness-architecture`.
 
 ---
 

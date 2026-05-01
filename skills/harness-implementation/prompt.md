@@ -1,9 +1,13 @@
 # Prompt 04 — Implementação (Loop Principal)
 
-## Fase TLC: EXECUTE — uma task por vez
 ## Superpowers: `executing-plans`, `test-driven-development`, `systematic-debugging` (se travar)
 ## Context7: obrigatório antes de usar qualquer lib externa
 ## Superpowers: `verification-before-completion` antes de marcar done
+
+> **Integração com `tlc-spec-driven` (Tech Leads Club, opcional)**
+> A skill [`tlc-spec-driven`](https://agent-skills.techleads.club) organiza o desenvolvimento em três fases: **SPECIFY → DESIGN → EXECUTE**.
+> Esta etapa corresponde à fase **EXECUTE** — uma task por vez, com commits atômicos e gates de verificação gerenciados pelo TLC.
+> Sem a skill instalada, use o prompt abaixo e siga o sprint contract manualmente.
 
 ---
 

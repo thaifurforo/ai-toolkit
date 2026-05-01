@@ -1,8 +1,12 @@
 # Prompt 09 — Iteração com Feedback (Steering Loop)
 
-## Fase TLC: SPECIFY → reinicia o ciclo
 ## Superpowers: `brainstorming` para gerar hipóteses a partir dos dados
 ## Princípio: cada problema recorrente vira um guia ou sensor novo no harness
+
+> **Integração com `tlc-spec-driven` (Tech Leads Club, opcional)**
+> A skill [`tlc-spec-driven`](https://agent-skills.techleads.club) organiza o desenvolvimento em três fases: **SPECIFY → DESIGN → EXECUTE**.
+> Esta etapa corresponde ao **reinício do ciclo em SPECIFY**: o feedback de produção alimenta um novo PRD ou refinamento de escopo.
+> Sem a skill instalada, registre as melhorias identificadas no `harness.config.yaml` ou em um novo PRD.
 
 ---
 

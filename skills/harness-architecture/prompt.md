@@ -1,8 +1,13 @@
 # Prompt 02 — Arquitetura Técnica
 
-## Fase TLC: DESIGN (auto-skip para features pequenas)
 ## Context7: use para cada biblioteca antes de recomendar
 ## Superpowers: `brainstorming` se ainda houver incerteza técnica alta
+
+> **Integração com `tlc-spec-driven` (Tech Leads Club, opcional)**
+> A skill [`tlc-spec-driven`](https://agent-skills.techleads.club) organiza o desenvolvimento em três fases: **SPECIFY → DESIGN → EXECUTE**.
+> Esta etapa corresponde à fase **DESIGN**.
+> Auto-skip recomendado para features pequenas: se escopo e stack já estão claros, vá direto para `harness-tasks`.
+> Sem a skill instalada, siga o prompt abaixo normalmente.
 
 ---
 

@@ -1,7 +1,11 @@
 # Prompt 05 — Code Review (Sensor Inferencial)
 
-## Fase TLC: EXECUTE → verify work
 ## Superpowers: `requesting-code-review` (preparar PR) + `receiving-code-review` (processar feedback)
+
+> **Integração com `tlc-spec-driven` (Tech Leads Club, opcional)**
+> A skill [`tlc-spec-driven`](https://agent-skills.techleads.club) organiza o desenvolvimento em três fases: **SPECIFY → DESIGN → EXECUTE**.
+> Esta etapa corresponde ao gate **EXECUTE → verify work**: sensor inferencial que valida a implementação antes do PR.
+> Sem a skill instalada, use o prompt abaixo como checklist de revisão independente.
 
 ---
 

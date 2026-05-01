@@ -1,8 +1,13 @@
 # Prompt 03 — Breakdown de Tasks
 
-## Fase TLC: TASKS (auto-skip para 1–2 tasks óbvias)
 ## Superpowers: acione `writing-plans` para persistir em `.milestones/`
 ## Superpowers: identifique tasks paralelas → `dispatching-parallel-agents`
+
+> **Integração com `tlc-spec-driven` (Tech Leads Club, opcional)**
+> A skill [`tlc-spec-driven`](https://agent-skills.techleads.club) organiza o desenvolvimento em três fases: **SPECIFY → DESIGN → EXECUTE**.
+> Esta etapa corresponde à transição **DESIGN → EXECUTE** (breakdown de tasks).
+> Auto-skip recomendado para 1–2 tasks óbvias: vá direto para `harness-implementation`.
+> Sem a skill instalada, use o prompt abaixo e persista o resultado em `.milestones/`.
 
 ---
 

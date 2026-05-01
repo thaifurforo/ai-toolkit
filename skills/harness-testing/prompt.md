@@ -1,8 +1,12 @@
 # Prompt 06 — Testes Automatizados (Sensores Computacionais)
 
-## Fase TLC: EXECUTE → UAT / verify work
 ## Superpowers: `test-driven-development`, `verification-before-completion`
 ## Após aprovação: acione `finishing-a-development-branch`
+
+> **Integração com `tlc-spec-driven` (Tech Leads Club, opcional)**
+> A skill [`tlc-spec-driven`](https://agent-skills.techleads.club) organiza o desenvolvimento em três fases: **SPECIFY → DESIGN → EXECUTE**.
+> Esta etapa corresponde ao gate **EXECUTE → UAT / verify work**: sensores computacionais que bloqueiam o merge se falharem.
+> Sem a skill instalada, use o prompt abaixo e rode os testes manualmente antes de abrir o PR.
 
 ---
 
