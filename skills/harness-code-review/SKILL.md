@@ -1,73 +1,76 @@
 ---
 name: harness-code-review
-description: Use when reviewing code before opening a PR, or when processing PR review feedback. Triggers on "revisar", "code review", "review do PR", "blockers do review". This is an inferential sensor — run after all computational sensors (lint, type check, tests) pass.
+description: Use quando for revisar código antes de abrir um PR, ou ao processar feedback de review. Ativado por "revisar", "code review", "review do PR", "blockers do review". É um sensor inferencial — executar após todos os sensores computacionais (lint, type check, testes) passarem.
 ---
 
-# Harness: Code Review (Stage 05)
+# Harness: Code Review (Etapa 05)
 
 **Persona:** Engenheiro sênior especialista em qualidade.
 
-## Integrations
+## Integrações
 
-- **`requesting-code-review`** skill — prepares the PR description and triggers the review
-- **`receiving-code-review`** skill — processes feedback and tracks resolution
-- **TLC:** equivalent to `verify work`
+> Verificar disponibilidade antes de usar (consultar `harness.config.yaml`).
+> Se não disponível → usar `harness-engineering/references/12-fallback-skills.md`.
 
-> **Run computational sensors first.** If lint, type check or structural tests are still failing, fix those before running this inferential review.
+- **`requesting-code-review`** *(se disponível)* — prepara a descrição do PR e dispara a revisão; *fallback: `12-fallback-skills.md § requesting-code-review`*
+- **`receiving-code-review`** *(se disponível)* — processa feedback e rastreia resolução; *fallback: `12-fallback-skills.md § receiving-code-review`*
+- **`tlc-spec-driven`** *(se disponível)* — equivalente a `verify work`
 
-## Severity Scale
+> **Execute os sensores computacionais primeiro.** Se lint, type check ou testes estruturais ainda estiverem falhando, corrija-os antes de executar este review inferencial.
 
-| Symbol | Level | Action |
-|--------|-------|--------|
-| 🔴 | Blocker | Must fix before merge |
-| 🟠 | Major | Must fix before merge |
-| 🟡 | Minor | Fix or document decision |
-| 🟢 | Praise | Acknowledge good work (≥1 required) |
+## Escala de Severidade
 
-## 6 Review Dimensions
+| Símbolo | Nível | Ação |
+|---------|-------|------|
+| 🔴 | Blocker | Deve corrigir antes do merge |
+| 🟠 | Major | Deve corrigir antes do merge |
+| 🟡 | Minor | Corrigir ou documentar a decisão |
+| 🟢 | Praise | Reconhecer o que foi bem feito (≥1 obrigatório) |
 
-1. **Corretude** — all CAs met? Correct behavior in edge cases?
-2. **Segurança** — input validation, exposed secrets, auth, SQL injection?
-3. **Tratamento de erros** — edge cases covered, informative messages?
-4. **Testabilidade** — tests cover all CAs? Failure cases tested?
-5. **Manutenibilidade** — readable, no duplication, follows project patterns?
-6. **Performance** — N+1 queries, memory leaks, blocking calls?
+## 6 Dimensões de Review
 
-## Copilot PR Review (additional mandatory source)
+1. **Corretude** — todos os CAs atendidos? Comportamento correto nos edge cases?
+2. **Segurança** — input validation, secrets expostos, auth, SQL injection?
+3. **Tratamento de erros** — edge cases cobertos, mensagens informativas?
+4. **Testabilidade** — testes cobrem todos os CAs? Casos de falha testados?
+5. **Manutenibilidade** — legível, sem duplicação, segue padrões do projeto?
+6. **Performance** — N+1 queries, memory leaks, chamadas bloqueantes?
 
-When a PR is open, GitHub Copilot posts review comments on diff lines. **These must be processed before Stage 05 is complete:**
+## Copilot PR Review (se `project_tracking.tool: github`)
 
-1. Use `github-mcp-server-pull_request_read` with `method: get_review_comments`
-2. For each Copilot comment: classify severity → fix Blockers/Majors → document Minor decisions
-3. Verify resolved threads (`isResolved: true`)
-4. Iterate until no Blocker/Major is open
+Quando um PR está aberto e a ferramenta configurada é GitHub, o GitHub Copilot pode postar comentários de revisão nas diff lines. **Se aplicável, processá-los antes da Etapa 05 estar completa:**
 
-> **Rule:** Never mark Stage 05 complete with open Blocker/Major Copilot threads on the PR.
+1. Usar `github-mcp-server-pull_request_read` com `method: get_review_comments`
+2. Para cada comentário do Copilot: classificar severidade → corrigir Blockers/Majors → documentar decisões Minor
+3. Verificar threads resolvidos (`isResolved: true`)
+4. Iterar até não haver Blocker/Major aberto
 
-## Mandatory PR Description Format
+> **Regra:** Nunca marcar a Etapa 05 completa com threads Blocker/Major abertos no PR.
 
-Every agent-created PR must include:
-1. **Resumo** — what is delivered and why
-2. **O que foi implementado** — detailed list by area (backend/frontend/infra/tests)
-3. **User Stories / Critérios de aceite atendidos** — traceable IDs with ✅ status
-4. **Como testar — Engenheiro** — technical steps (build, tests, endpoints)
-5. **Como testar — QA** — functional steps in browser
-6. **Evidências** — test output, screenshots, curl responses
-7. **Checklist** — computational sensors run, no secrets exposed, arch tests OK
+## Formato Obrigatório de Descrição de PR
 
-**PR size:** ideal 300–600 lines of functional code (excluding auto-generated). Max ~1000 lines.
+Todo PR criado por agente deve incluir:
+1. **Resumo** — o que é entregue e por quê
+2. **O que foi implementado** — lista detalhada por área (backend/frontend/infra/testes)
+3. **User Stories / Critérios de aceite atendidos** — IDs rastreáveis com status ✅
+4. **Como testar — Engenheiro** — passos técnicos (build, testes, endpoints)
+5. **Como testar — QA** — passos funcionais no browser
+6. **Evidências** — saída dos testes, screenshots, respostas do curl
+7. **Checklist** — sensores computacionais executados, sem secrets expostos, arch tests OK
 
-> **🚫 ABSOLUTE RESTRICTION — agent NEVER merges any PR.**
-> Merge is exclusively the human's responsibility. No exceptions.
+**Tamanho de PR:** ideal 300–600 linhas de código funcional (excluindo código auto-gerado). Máximo ~1000 linhas.
 
-## Expected Output
+> **🚫 RESTRIÇÃO ABSOLUTA — o agente NUNCA faz merge de qualquer PR.**
+> Merge é exclusivamente responsabilidade do humano. Sem exceções.
 
-Prioritized findings list with location, impact, and remediation. Ready to post on PR.
+## Saída Esperada
 
-## Next Step → `harness-testing`
+Lista priorizada de achados com localização, impacto e remediação. Pronto para postar no PR.
 
-Fix all 🔴 and 🟠. Then ensure full CA coverage.
+## Próximo Passo → `harness-testing`
+
+Resolva todos os 🔴 e 🟠. Em seguida, garanta cobertura completa dos CAs.
 
 ---
 
-**Full prompt template:** See `./prompt.md`
+**Template completo de prompt:** Ver `./prompt.md`

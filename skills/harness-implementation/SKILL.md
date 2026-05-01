@@ -1,84 +1,87 @@
 ---
 name: harness-implementation
-description: Use when implementing a technical task from the breakdown. Triggers on "implementar", "código", "implement T-XX", "executar task". One task per invocation. Requires PRD (relevant sections) + architecture + AGENTS.md as context.
+description: Use quando for implementar uma task técnica do breakdown. Ativado por "implementar", "código", "implement T-XX", "executar task". Uma task por invocação. Requer PRD (seções relevantes) + arquitetura + AGENTS.md como contexto.
 ---
 
-# Harness: Implementation (Stage 04)
+# Harness: Implementação (Etapa 04)
 
 **Persona:** Engenheiro de software sênior.
 
-## Integrations
+## Integrações
 
-- **`executing-plans`** skill to manage task-by-task execution
-- **`test-driven-development`** skill — write tests first or alongside
-- **`systematic-debugging`** skill if the task blocks for >2 attempts
-- **`verification-before-completion`** skill before marking any task done
-- **`using-git-worktrees`** for parallel work on independent tasks
-- **Context7:** MANDATORY before using any external library — `resolve_library_id` → `get_library_docs`
-- **TLC:** use `implement` trigger — TLC manages atomic commits and verification
+> Verificar disponibilidade antes de usar (consultar `harness.config.yaml`).
+> Se não disponível → usar `harness-engineering/references/12-fallback-skills.md`.
 
-## Before Any Code
+- **`executing-plans`** *(se disponível)* — gerenciar execução task a task; *fallback: `12-fallback-skills.md § executing-plans`*
+- **`test-driven-development`** *(se disponível)* — escrever testes antes ou junto; *fallback: `12-fallback-skills.md § test-driven-development`*
+- **`systematic-debugging`** *(se disponível)* — se a task bloquear por >2 tentativas; *fallback: `12-fallback-skills.md § systematic-debugging`*
+- **`verification-before-completion`** *(se disponível)* — antes de marcar task concluída; *fallback: `12-fallback-skills.md § verification-before-completion`*
+- **`using-git-worktrees`** *(se disponível)* — para trabalho paralelo em tasks independentes; *fallback: branches sequenciais*
+- **`context7-mcp`** *(se disponível)* — OBRIGATÓRIO antes de usar qualquer biblioteca externa: `resolve_library_id` → `get_library_docs`; *fallback: busca web*
+- **`tlc-spec-driven`** *(se disponível)* — use trigger `implement` — TLC gerencia commits atômicos e verificação
 
-> ⚠️ **Create the task branch first:**
+## Antes de Qualquer Código
+
+> ⚠️ **Crie a branch da task primeiro:**
 > ```bash
-> # No dependency → base on develop
+> # Sem dependência → base em develop
 > git checkout develop && git pull
 > git checkout -b feature/T-[N]-descricao
 >
-> # With Depends: T-YY → base on dependency branch
+> # Com Depends: T-YY → base na branch da dependência
 > git checkout feature/T-YY
 > git checkout -b feature/T-[N]-descricao
 > ```
-> One task = one branch. Never commit a task into another task's branch.
+> Uma task = uma branch. Nunca faça commit de uma task na branch de outra task.
 
-## Context Verification Chain
+## Cadeia de Verificação de Contexto
 
-Before writing any code:
-1. Codebase — does a similar pattern already exist? If so, follow it.
-2. `AGENTS.md` and `.catalog/` — relevant conventions for this layer?
-3. Context7: `resolve_library_id` → `get_library_docs` for each external lib
-4. Web search — only if Context7 doesn't cover it
+Antes de escrever qualquer código:
+1. Codebase — existe padrão similar implementado? Se sim, siga-o.
+2. `AGENTS.md` e `.catalog/` — convenções relevantes para esta camada?
+3. Context7: `resolve_library_id` → `get_library_docs` para cada lib externa
+4. Busca web — apenas se Context7 não cobrir
 
-## Sprint Contract (Anthropic pattern)
+## Sprint Contract (padrão Anthropic)
 
-Before coding, propose:
+Antes de codar, proponha:
 ```
-Vou implementar: [what will be built]
-Arquivos afetados: [list]
-Sucesso verificado por: [how to test CA-01, CA-02...]
-Gate: [command]
-Fora do escopo desta task: [what will NOT be done]
+Vou implementar: [o que será construído]
+Arquivos afetados: [lista]
+Sucesso verificado por: [como testar CA-01, CA-02...]
+Gate: [comando]
+Fora do escopo desta task: [o que NÃO será feito]
 ```
-Wait for validation before proceeding.
+Aguarde validação antes de avançar para o código.
 
-## What to Produce
+## O Que Produzir
 
-1. Complete code
-2. Unit tests (TDD — write before or alongside)
-3. Commit message (Conventional Commits)
-4. Completion checklist: done when + gate executed
+1. Código completo
+2. Testes unitários (TDD — escrever antes ou junto)
+3. Mensagem de commit (Conventional Commits)
+4. Checklist de conclusão: done when + gate executado
 
-## Mandatory Annotations
+## Anotações Obrigatórias
 
 ```typescript
-// TODO: clarificar com PM — [question about requirement]
-// RISK: [identified technical risk]
-// DEBT: [intentional technical debt — accepted because: reason]
-// UNCERTAIN: [unverified API — confirm via Context7]
+// TODO: clarificar com PM — [dúvida sobre requisito]
+// RISK: [risco técnico identificado]
+// DEBT: [dívida técnica intencional — aceita porque: razão]
+// UNCERTAIN: [API não verificada via Context7 — confirmar]
 ```
 
-## Context Management
+## Gestão de Contexto
 
-If context exceeds ~40% of window: write handoff to `.handoffs/handoff-T-[N].md` (JSON format) and restart.
+Se o contexto ultrapassar ~40% da janela: escrever handoff em `.handoffs/handoff-T-[N].md` (formato JSON) e reiniciar.
 
-## Expected Output
+## Saída Esperada
 
-Code + tests + commit message + completion checklist + `.milestones/` updated.
+Código + testes + mensagem de commit + checklist de conclusão + `.milestones/` atualizado.
 
-## Next Step → `harness-code-review`
+## Próximo Passo → `harness-code-review`
 
-Before opening the PR. Use `requesting-code-review` from Superpowers.
+Antes de abrir o PR. Usar `requesting-code-review` do Superpowers.
 
 ---
 
-**Full prompt template:** See `./prompt.md`
+**Template completo de prompt:** Ver `./prompt.md`

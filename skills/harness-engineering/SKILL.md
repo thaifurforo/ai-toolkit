@@ -8,7 +8,7 @@ description: >
   "arquitetura", "quebrar em tasks", "implementar", "code review", "gerar testes", "documentar",
   "CI/CD", "analisar feedback", "por onde começo", "como organizo o projeto com IA",
   "quero construir um app", "vamos iniciar", "quero desenvolver", ou qualquer combinação dessas ações.
-  Combine com skills instaladas (tlc-spec-driven, superpowers, context7) para máxima efetividade.
+  Combine com skills disponíveis (tlc-spec-driven, superpowers, context7) para máxima efetividade — verificar disponibilidade via `harness.config.yaml`.
 ---
 
 # Harness Engineering
@@ -45,23 +45,22 @@ Nunca crie tasks sem RF. Nunca feche task sem gate verificado. Nunca abra PR sem
 
 ---
 
-## Documentação viva (GitHub-native pattern)
+## Documentação viva
 
 ```
 AGENTS.md (≤100 linhas — tabela de roteamento)
   ↓ aponta para:
 .catalog/                    ← fonte de verdade técnica (versionada no repositório)
-.milestones/                 ← documentação de entregas por milestone
-GitHub Milestone             ← um por release/feature-set
-GitHub Issues                ← PRD, Tech Solution, User Stories, Tasks
-GitHub Projects (board)      ← visão de progresso
-GitHub Releases + CHANGELOG  ← gerados por release-please
+[delivery_docs.path]/        ← documentação de entregas por [level1] (padrão: .milestones/)
+Ferramenta de rastreamento   ← [level1] > [level2] > tasks (conforme project_tracking.tool)
+Changelog                    ← release-please (se disponível) ou CHANGELOG.md manual
 .handoffs/ (sessão)          ← handoffs inter-sessão apenas (temporário)
 ```
 
-**Regra de ouro:** decisão técnica permanente → `.catalog/`. Planejamento e entregas → GitHub Issues/Milestone.
+**Regra de ouro:** decisão técnica permanente → `.catalog/`. Planejamento e entregas → ferramenta de rastreamento + `[delivery_docs.path]/`.
 
-**Templates canônicos** para `.milestones/`: `references/10-documentacao-entregas.md`
+**Templates canônicos** para `[delivery_docs.path]/`: `references/10-documentacao-entregas.md`  
+**Como persistir por ferramenta:** `references/11-project-tracking.md`
 
 ---
 
@@ -71,6 +70,7 @@ Para cada etapa, invoque a skill correspondente:
 
 | # | Etapa | Skill | Triggers |
 |---|-------|-------|---------|
+| 00 | Setup do Projeto | *(referência interna)* | primeira invocação sem `harness.config.yaml` |
 | 01 | PRD | **`harness-prd`** | "criar PRD", "especificar", "iniciar projeto" |
 | 02 | Arquitetura Técnica | **`harness-architecture`** | "arquitetura", "stack", "design técnico" |
 | 03 | Breakdown de Tasks | **`harness-tasks`** | "quebrar em tasks", "planejar", "tasks" |
@@ -83,36 +83,40 @@ Para cada etapa, invoque a skill correspondente:
 
 Cada skill é **autossuficiente**: contém a persona, o processo detalhado e o prompt template em `./prompt.md`.
 
+> **Etapa 00:** Se `harness.config.yaml` não existe → executar wizard em `references/00-setup-wizard.md` antes de prosseguir. Se existe → ler config e mapear variáveis antes de qualquer etapa.
+
 ---
 
-## Skills complementares — verificar antes de cada etapa
+## Skills complementares — verificar disponibilidade antes de cada etapa
 
-### tlc-spec-driven
+> **Regra:** Verificar se a skill está disponível antes de invocar (consultar `harness.config.yaml`).
+> Se não disponível → usar `references/12-fallback-skills.md` para o conteúdo equivalente.
+
+### tlc-spec-driven *(se disponível — `skills.tlc_spec_driven: true`)*
 - **Quando usar:** etapas 01 (SPECIFY), 02 (DESIGN), 03 (TASKS), 04–06 (EXECUTE)
 - **Integração:** TLC fornece execução atômica com commits e critérios de verificação. Harness Engineering fornece os guias e sensores ao redor.
+- **Fallback:** continuar o pipeline sem TLC — cada sub-skill define seus próprios gates
 
-### Superpowers
-
-| Skill Superpowers | Quando acionar neste pipeline |
-|---|---|
-| `brainstorming` | Etapa 01/02 — escopo ainda indefinido |
-| `writing-plans` | Etapa 03 — criar o breakdown de tasks |
-| `executing-plans` | Etapa 04 — task por task |
-| `test-driven-development` | Etapa 04+06 |
-| `requesting-code-review` | Etapa 05 — antes de abrir PR |
-| `receiving-code-review` | Etapa 05 — processar feedback |
-| `systematic-debugging` | Etapa 04 — quando uma task falha |
-| `verification-before-completion` | Etapa 04/05/06 |
-| `finishing-a-development-branch` | Após etapa 06 |
-| `dispatching-parallel-agents` | Etapa 03/04 — tasks independentes |
-| `subagent-driven-development` | Etapa 04 — features grandes |
-| `using-git-worktrees` | Etapa 04 — trabalho paralelo |
-
-**Instrução:** Se a skill Superpowers estiver instalada, **prefira** suas skills específicas em vez de replicar a instrução inline.
-
-### Context7
+### context7-mcp *(se disponível — `skills.context7: true`)*
 - **Quando usar:** sempre que o código usa uma biblioteca externa — antes de gerar qualquer implementação
 - **Cadeia:** Codebase → .catalog/ + AGENTS.md → Context7 → Web search
+- **Fallback:** `references/12-fallback-skills.md § context7`
+
+### Superpowers *(se disponível — `skills.superpowers: true`)*
+
+| Skill | Quando acionar | Fallback |
+|-------|---------------|---------|
+| `brainstorming` | Etapa 01/02 — escopo ainda indefinido | `12-fallback-skills.md § brainstorming` |
+| `writing-plans` | Etapa 03 — criar o breakdown de tasks | `12-fallback-skills.md § writing-plans` |
+| `executing-plans` | Etapa 04 — task por task | `12-fallback-skills.md § executing-plans` |
+| `test-driven-development` | Etapa 04+06 | `12-fallback-skills.md § test-driven-development` |
+| `requesting-code-review` | Etapa 05 — antes de abrir PR | `12-fallback-skills.md § requesting-code-review` |
+| `receiving-code-review` | Etapa 05 — processar feedback | `12-fallback-skills.md § receiving-code-review` |
+| `systematic-debugging` | Etapa 04 — quando uma task falha | `12-fallback-skills.md § systematic-debugging` |
+| `verification-before-completion` | Etapa 04/05/06 | `12-fallback-skills.md § verification-before-completion` |
+| `finishing-a-development-branch` | Após etapa 06 | `12-fallback-skills.md § finishing-a-development-branch` |
+| `dispatching-parallel-agents` | Etapa 03/04 — tasks independentes | `12-fallback-skills.md § dispatching-parallel-agents` |
+| `using-git-worktrees` | Etapa 04 — trabalho paralelo | *branches sequenciais* |
 
 ---
 
@@ -202,7 +206,8 @@ Types → Config → Repository → Service → Runtime → UI
 - [ ] mermaid-studio
 
 ## Links
-- PRD: .milestones/[nome]/prd.md
+- Config: harness.config.yaml
+- PRD: [delivery_docs.path]/[level1-nome]/prd.md
 - Arquitetura: .catalog/architecture.md
 - Riscos/Dívidas: .catalog/concerns.md
 ```
@@ -213,7 +218,10 @@ Types → Config → Repository → Service → Runtime → UI
 
 | Arquivo | Conteúdo |
 |---------|----------|
-| `references/10-documentacao-entregas.md` | Templates canônicos: milestone.md, prd.md, tech-solution.md, user-story.md, tech-spec.md, changelog.md |
+| `references/00-setup-wizard.md` | Wizard de setup: detecta config, faz perguntas, gera `harness.config.yaml` |
+| `references/10-documentacao-entregas.md` | Templates canônicos: [level1].md, prd.md, tech-solution.md, user-story.md, tech-spec.md, changelog.md |
+| `references/11-project-tracking.md` | Como persistir outputs por ferramenta; verificação de conectividade (CLI→MCP→API); fallback markdown |
+| `references/12-fallback-skills.md` | Conteúdo condensado de 14 skills externas — usar quando a skill não estiver instalada |
 
 ---
 

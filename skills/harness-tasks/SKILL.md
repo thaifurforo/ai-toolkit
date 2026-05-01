@@ -1,20 +1,23 @@
 ---
 name: harness-tasks
-description: Use when breaking down a PRD and architecture into user stories and technical tasks. Triggers on "quebrar em tasks", "planejar tasks", "breakdown", "sprint". Requires PRD + architecture as input.
+description: Use quando for decompor um PRD e arquitetura em user stories e tasks técnicas. Ativado por "quebrar em tasks", "planejar tasks", "breakdown", "sprint". Requer PRD + arquitetura como entrada.
 ---
 
-# Harness: Task Breakdown (Stage 03)
+# Harness: Breakdown de Tasks (Etapa 03)
 
 **Persona:** Tech lead especialista em planejamento ágil.
 
-## Integrations
+## Integrações
 
-- **`writing-plans`** skill to structure and persist the plan
-- **`dispatching-parallel-agents`** skill for independent parallel tasks
-- **`using-git-worktrees`** when multiple agents run in parallel
-- **TLC:** auto-skip for 1–2 obvious tasks
+> Verificar disponibilidade antes de usar (consultar `harness.config.yaml`).
+> Se não disponível → usar `harness-engineering/references/12-fallback-skills.md`.
 
-## User Story Format
+- **`writing-plans`** *(se disponível)* — estruturar e persistir o plano; *fallback: `12-fallback-skills.md § writing-plans`*
+- **`dispatching-parallel-agents`** *(se disponível)* — para tasks independentes em paralelo; *fallback: `12-fallback-skills.md § dispatching-parallel-agents`*
+- **`using-git-worktrees`** *(se disponível)* — quando múltiplos agentes rodam em paralelo; *fallback: branches sequenciais*
+- **`tlc-spec-driven`** *(se disponível)* — auto-skip para 1–2 tasks óbvias
+
+## Formato de User Story
 
 ```
 ID: US-[N]  |  Requisito: RF-[N]
@@ -23,7 +26,7 @@ CA-01: [critério mensurável]
 Estimativa: P/M/G/XG  |  Deps: US-XX ou nenhuma
 ```
 
-## Technical Task Format (TLC-compatible)
+## Formato de Task Técnica (compatível com TLC)
 
 ```
 T-[N] | US-[N] | [Descrição]
@@ -35,7 +38,7 @@ Reuses:    [componente existente ou nada]
 Parallel:  [sim/não]
 ```
 
-## Dependency → Branch Rule
+## Regra de Branch por Dependência
 
 | Situação | Base da branch | PR aponta para |
 |---|---|---|
@@ -43,22 +46,19 @@ Parallel:  [sim/não]
 | T-XX com `Depends: T-YY` | `feature/T-YY` | `feature/T-YY` |
 | T-YY foi mesclada em develop | `develop` (rebase) | `develop` |
 
-## Estimates
+## Estimativas
 
-P = hours | M = 1–2 days | G = 3–5 days | XG = >5 days (break it down)
+P = horas | M = 1–2 dias | G = 3–5 dias | XG = >5 dias (quebrar em tasks menores)
 
-## Expected Output
+## Saída Esperada
 
-- GitHub Milestone for the release/feature-set
-- Each User Story → GitHub Issue (label `user-story`) linked to Milestone
-- Technical tasks (T-XX) → checklist in the Issue body
-- GitHub Projects board updated
-- `.milestones/[name]/milestone.md` + one folder per US with `user-story.md`, `tech-spec.md`, `changelog.md`
+- Hierarquia e rastreamento conforme `harness.config.yaml` — ver `references/11-project-tracking.md`
+- Documentação de entrega: `[delivery_docs.path]/[level1-nome]/` com `[level1].md` + pasta por `[level2-XX]` contendo `user-story.md`, `tech-spec.md`, `changelog.md`
 
-## Next Step → `harness-implementation`
+## Próximo Passo → `harness-implementation`
 
-One task at a time. Context: PRD (relevant sections) + architecture + AGENTS.md.
+Uma task por vez. Contexto: PRD (seções relevantes) + arquitetura + AGENTS.md.
 
 ---
 
-**Full prompt template:** See `./prompt.md`
+**Template completo de prompt:** Ver `./prompt.md`

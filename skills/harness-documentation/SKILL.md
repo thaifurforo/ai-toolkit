@@ -1,63 +1,67 @@
 ---
 name: harness-documentation
-description: Use when updating documentation after completing a user story or feature. Triggers on "documentar", "README", "doc da API", "atualizar catalog", "atualizar AGENTS.md". Always run after harness-testing to close the delivery loop.
+description: Use quando for atualizar documentação após concluir uma user story ou feature. Ativado por "documentar", "README", "doc da API", "atualizar catalog", "atualizar AGENTS.md". Sempre executar após harness-testing para fechar o loop de entrega.
 ---
 
-# Harness: Documentation (Stage 07)
+# Harness: Documentação (Etapa 07)
 
 **Persona:** Technical writer.
 
-## Two Layers — Distinct Responsibilities
+## Duas Camadas — Responsabilidades Distintas
 
 ```
-.catalog/          ← technical source of truth (versioned in the repository)
+.catalog/                    ← fonte de verdade técnica (versionada no repositório)
   architecture.md, conventions.md, concerns.md, features.md, stack.md...
 
-GitHub (Issues / Milestone / Releases)  ← planning, deliveries, changelog
+[delivery_docs.path]/        ← documentação de entregas (padrão: .milestones/)
+Ferramenta de rastreamento   ← issues/cards/epics/stories conforme project_tracking.tool
 ```
 
-**Rule:** `AGENTS.md` is the routing table (≤100 lines) — points to `.catalog/` and GitHub URLs.
-Wiki references `.catalog/` via blob URL — **never duplicates content**.
+**Regra:** `AGENTS.md` é a tabela de roteamento (≤100 linhas) — aponta para `.catalog/` e para os itens de rastreamento.
 
-## Type A — Delivery Docs (update always)
+## Tipo A — Docs de Entrega (atualizar sempre)
 
-After every completed US:
-- `.milestones/[milestone]/[US-XX]/changelog.md` — what changed, why, impact
-- `.milestones/[milestone]/[US-XX]/tech-spec.md` — mark tasks complete, update status to ✅
-- `.milestones/[milestone]/milestone.md` — mark US complete (`- [x] US-XX`)
+Após cada [level2] concluída:
+- `[delivery_docs.path]/[level1-nome]/[level2-XX]/changelog.md` — o que mudou, por quê, impacto
+- `[delivery_docs.path]/[level1-nome]/[level2-XX]/tech-spec.md` — marcar tasks completas, atualizar status para ✅
+- `[delivery_docs.path]/[level1-nome]/[level1].md` — marcar [level2] completa
 
-Close GitHub Issue via `Closes #N` in PR body — GitHub closes automatically on merge.
+Fechar entrega conforme `project_tracking.tool` — ver `references/11-project-tracking.md`.
 
-## Type B — Context Docs (update ONLY if something changed)
+## Tipo B — Docs de Contexto (atualizar APENAS se algo mudou)
 
-Update only when the US introduced something new:
+Atualizar somente quando a US introduziu algo novo:
 
-| File | When to update |
-|------|---------------|
-| `.catalog/features.md` | New functionality implemented |
-| `.catalog/architecture.md` | New ADR, layer change, structural pattern |
-| `.catalog/conventions.md` | New code pattern emerged |
-| `.catalog/concerns.md` | New technical debt or risk |
-| `.catalog/stack.md` | New dependency or configuration |
+| Arquivo | Quando atualizar |
+|---------|-----------------|
+| `.catalog/features.md` | Nova funcionalidade implementada |
+| `.catalog/architecture.md` | Novo ADR, mudança de camada, padrão estrutural |
+| `.catalog/conventions.md` | Novo padrão de código emergiu |
+| `.catalog/concerns.md` | Nova dívida técnica ou risco |
+| `.catalog/stack.md` | Nova dependência ou configuração |
 
-> **Never delete ADRs** — they are the project's historical memory.
+> **Jamais delete ADRs** — são a memória histórica do projeto.
 
-## Changelog and Release Notes
+## Changelog e Release Notes
 
-**Do not write manually.** Use Conventional Commits — `release-please` generates:
-- `CHANGELOG.md` in the repository
-- GitHub Release with commits grouped by type
+| Situação | Abordagem |
+|----------|-----------|
+| `release-please` disponível | Conventional Commits → geração automática de `CHANGELOG.md` e Release |
+| Sem `release-please` | Manter `CHANGELOG.md` manual seguindo [Keep a Changelog](https://keepachangelog.com) |
+| Ferramenta nativa (Jira/Linear/ADO) | Usar changelog nativo da ferramenta + `CHANGELOG.md` no repo |
 
-## Expected Output
+> **Regra:** Nunca escrever changelog manualmente se `release-please` estiver configurado.
 
-**Always:** `.milestones/` updated + Issue closed via `Closes #N`
+## Saída Esperada
 
-**If applicable:** `.catalog/` updated + `AGENTS.md` updated + Wiki updated if structural change
+**Sempre:** `[delivery_docs.path]/` atualizado + entrega fechada conforme `project_tracking.tool`
 
-## Next Step → `harness-cicd`
+**Se aplicável:** `.catalog/` atualizado + `AGENTS.md` atualizado se houve mudança estrutural
 
-(or back to `harness-implementation` for the next US in the milestone)
+## Próximo Passo → `harness-cicd`
+
+(ou voltar para `harness-implementation` para a próxima US do milestone)
 
 ---
 
-**Full prompt template:** See `./prompt.md`
+**Template completo de prompt:** Ver `./prompt.md`

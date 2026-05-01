@@ -1,42 +1,46 @@
 # Referência 10 — Templates de Documentação de Entregas
 
-Modelos canônicos para os arquivos de `.milestones/`.
+Modelos canônicos para os arquivos de entrega.
 Use-os sempre que gerar documentação de uma nova entrega.
+
+> **Hierarquia configurável:** Os templates usam `epic > user-story > task` como padrão.
+> Substitua pelo que estiver em `harness.config.yaml` (`hierarchy.level1/2/3`).
+> O caminho da pasta é `delivery_docs.path` (padrão: `.milestones/`).
 
 ---
 
 ## Estrutura esperada
 
 ```
-.milestones/
-  [nome-do-milestone]/
-    milestone.md          ← visão geral + USs + mapa de deps
-    prd.md                ← requisitos de negócio (gerado na Etapa 01)
-    tech-solution.md      ← solução técnica do milestone (gerado na Etapa 02)
-    [US-XX-nome]/
-      user-story.md       ← história + critérios de aceite
-      tech-spec.md        ← spec técnica + tasks
-      changelog.md        ← registro de mudanças durante a US
+[delivery_docs.path]/           ← padrão: .milestones/
+  [level1-nome]/                ← padrão: epic-nome/
+    [level1].md                 ← visão geral + level2s + mapa de deps  (padrão: epic.md)
+    prd.md                      ← requisitos de negócio (gerado na Etapa 01)
+    tech-solution.md            ← solução técnica do level1 (gerado na Etapa 02)
+    [level2-XX-nome]/           ← padrão: US-XX-nome/
+      user-story.md             ← história + critérios de aceite
+      tech-spec.md              ← spec técnica + tasks
+      changelog.md              ← registro de mudanças durante a entrega
 ```
 
-> `prd.md` e `tech-solution.md` são gerados **uma vez por milestone** (Etapas 01 e 02).
-> `user-story.md`, `tech-spec.md` e `changelog.md` são gerados por US (Etapa 03), antes da Etapa 04.
+> `prd.md` e `tech-solution.md` são gerados **uma vez por [level1]** (Etapas 01 e 02).
+> `user-story.md`, `tech-spec.md` e `changelog.md` são gerados por [level2] (Etapa 03), antes da Etapa 04.
 
 ---
 
-## Template: milestone.md
+## Template: [level1].md (padrão: epic.md)
 
 ```markdown
-# Milestone: [Nome] — [Versão/Identificador]
+# Epic: [Nome] — [Versão/Identificador]
 
 Status: pending | in-progress | done
 Criado: YYYY-MM-DD
-PRD: .milestones/[nome]/prd.md
-Solução técnica: .milestones/[nome]/tech-solution.md
+PRD: [delivery_docs.path]/[level1-nome]/prd.md
+Solução técnica: [delivery_docs.path]/[level1-nome]/tech-solution.md
 
 ---
 
-## User Stories
+## [level2]s (padrão: User Stories)
 
 - [ ] US-01: [Nome] (T-01, T-02, T-03)
 - [ ] US-02: [Nome] (T-04, T-05)
