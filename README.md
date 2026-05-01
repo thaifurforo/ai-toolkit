@@ -93,7 +93,7 @@ Este é um repositório pessoal, mas PRs com melhorias, correções ou novas ski
 
 ## 👤 Autora
 
-**Thaís Furtoro** — Engenheira de Software com foco em backend (.NET/C#, TypeScript) e arquitetura de sistemas.
+**Thainara Furforo** — Engenheira de Software com foco em backend (.NET/C#, TypeScript) e arquitetura de sistemas.
 
 [![GitHub](https://img.shields.io/badge/GitHub-thaifurforo-181717?logo=github)](https://github.com/thaifurforo)
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-thaifurforo-0A66C2?logo=linkedin)](https://linkedin.com/in/thaifurforo)
