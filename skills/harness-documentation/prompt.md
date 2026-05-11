@@ -14,9 +14,10 @@
 Documentação existe em duas camadas com responsabilidades distintas:
 
 - **`.catalog/`** — fonte de verdade técnica. Atualizada *apenas quando* a US introduz algo novo: um ADR, padrão emergente, dívida técnica, feature em produção. Não atualize por atualize.
-- **GitHub (Issues / Milestone / Releases)** — planejamento, entregas e changelog. Issues fecham via `Closes #N` no PR. Changelog gerado automaticamente por `release-please`.
+- **Tracking configurado** — planejamento e entregas vivem em `project_tracking.tool` (GitHub, Jira, Linear, Azure DevOps ou markdown local).
+- **Release configurado** — changelog e versionamento seguem `release_management.strategy` (GitHub auto-release, GitHub legacy, release-please, manual ou none).
 
-**Regra:** `AGENTS.md` é a tabela de roteamento (≤100 linhas) — aponta para `.catalog/` e para URLs do GitHub. A Wiki referencia `.catalog/` via blob URL — nunca duplica conteúdo.
+**Regra:** `AGENTS.md` é a tabela de roteamento (≤100 linhas) — aponta para `.catalog/` e para a fonte ativa de tracking. Wikis e boards referenciam `.catalog/` via URL — nunca duplicam conteúdo.
 
 ---
 
@@ -30,8 +31,8 @@ iniciam uma nova sessão sem memória do que foi feito antes.
 ---
 ## CONTEXTO
 
-**Milestone / US concluída:**
-[ex: v1-mvp / US-02 — Autenticação JWT — GitHub Issue #12]
+**Agrupamento / US concluída:**
+[ex: epic-auth / US-02 — Autenticação JWT — Jira Story PROJ-12 ou GitHub Issue #12]
 
 **PRD (seções relevantes):**
 [Visão Geral, RFs atendidos, CAs]
@@ -45,17 +46,17 @@ iniciam uma nova sessão sem memória do que foi feito antes.
 **Data:** [data]
 ---
 
-## 1. FECHAMENTO DA ISSUE NO GITHUB
+## 1. FECHAMENTO NO TRACKING CONFIGURADO
 
-No body do PR que implementa a US, inclua:
+Feche a entrega conforme `project_tracking.tool`. Para GitHub, inclua no body do PR:
 
 ```markdown
 Closes #[ISSUE_NUMBER_US]
 ```
 
-Isso fecha a Issue automaticamente ao mergear o PR, e fecha o Milestone quando todas as Issues estiverem fechadas.
+Isso fecha a Issue automaticamente ao mergear o PR. Para Jira, Linear ou Azure DevOps, transicione o item para Done apenas após merge/verificação.
 
-**Não marque manualmente** — o GitHub faz isso via o `Closes` no PR.
+**Não troque a ferramenta de tracking por causa da release.** Se a release usa GitHub mas o trabalho está no Jira/Linear/Azure DevOps, mantenha o item externo como fonte de verdade.
 
 ---
 
@@ -95,14 +96,13 @@ a US adicionou dependência nova, reorganizou pastas ou integrou novo serviço.
 
 ## 3. CHANGELOG E RELEASE NOTES
 
-**Não escreva manualmente.** Use Conventional Commits — o `release-please` gera:
-- `CHANGELOG.md` no repositório
-- GitHub Release com notas agrupadas por tipo de commit
+Siga `release_management.strategy`:
 
-Tipos que geram release:
-- `feat:` → minor bump
-- `fix:`, `perf:` → patch bump
-- `feat!:` / BREAKING CHANGE → major bump
+- `github-auto-release`: aplicar exatamente uma label `release:patch`, `release:minor` ou `release:major` no PR; não escrever changelog versionado manual.
+- `github-legacy`: atualizar milestone/release notes conforme a política do projeto.
+- `release-please`: usar Conventional Commits; não editar manualmente o changelog versionado.
+- `manual-changelog`: atualizar `CHANGELOG.md` ou changelog de entrega.
+- `none`: não criar changelog/release formal.
 
 ---
 
@@ -117,7 +117,7 @@ Atualize apenas se novos padrões, arquivos ou URLs emergiram.
 |-----------------------------|------|
 | O que é o projeto | `.catalog/project.md` |
 | Arquitetura, ADRs | `.catalog/architecture.md` |
-| Milestone atual | [GitHub Milestone URL] |
+| Tracking atual | [URL do GitHub/Jira/Linear/Azure DevOps ou caminho markdown] |
 
 ## Quick start
 [comandos essenciais]
@@ -135,12 +135,12 @@ Se o projeto usa openapi-typescript: atualize a spec, não crie `api-docs.md`.
 
 ---
 
-## 6. GITHUB WIKI (se mudanças estruturais)
+## 6. WIKI/PORTAL DE DOCS (se mudanças estruturais)
 
 Se a US trouxe mudança estrutural significativa (novo módulo, nova integração):
-atualize a página `Home.md` da Wiki para refletir novos links para `.catalog/`.
+atualize a página inicial da Wiki/portal para refletir novos links para `.catalog/`.
 
-A Wiki **nunca copia** conteúdo — apenas linka via blob URL:
+A Wiki/portal **nunca copia** conteúdo — apenas linka para a fonte versionada:
 ```markdown
 - **[Arquitetura](https://github.com/owner/repo/blob/main/.catalog/architecture.md)**
 ```
@@ -149,18 +149,18 @@ A Wiki **nunca copia** conteúdo — apenas linka via blob URL:
 ## REGRAS
 
 - Linguagem direta — audiência inclui agentes de IA
-- `.catalog/` é a fonte de verdade — Wiki e AGENTS.md apontam para lá
+- `.catalog/` é a fonte de verdade técnica — Wiki/portal e AGENTS.md apontam para lá
 - Documente comportamentos observáveis, não implementação interna
 - Linter deve validar cross-links em `.catalog/` após atualização
 - Jamais delete ADRs — são memória histórica do projeto
-- Changelog é gerado automaticamente — não escreva à mão
+- Changelog segue `release_management.strategy` — não escreva manualmente quando a automação for a fonte
 ```
 
 ---
 ## Saída esperada
 
 **Sempre:**
-- Issue da US fechada via `Closes #N` no PR
+- Entrega fechada conforme `project_tracking.tool`
 
 **Se aplicável:**
 - `.catalog/[arquivo].md` atualizado (architecture, conventions, concerns, features)
@@ -182,7 +182,7 @@ iniciam uma nova sessão sem memória do que foi feito antes.
 ---
 ## CONTEXTO
 
-**Milestone / US concluída:**
+**Agrupamento / US concluída:**
 [ex: v1-mvp / US-02 — Autenticação JWT]
 
 **PRD (seções relevantes):**
@@ -197,11 +197,11 @@ iniciam uma nova sessão sem memória do que foi feito antes.
 **Data:** [data]
 ---
 
-## TIPO A — DOCS DE ENTREGA (atualizar sempre)
+## TIPO A — DOCS DE ENTREGA (atualizar quando forem fonte ativa ou fallback)
 
-### 1. Changelog da US — `.milestones/[milestone]/[US-XX]/changelog.md`
+### 1. Changelog da US — `[delivery_docs.path]/[level1]/[US-XX]/changelog.md`
 
-Registre cada mudança relevante ocorrida durante a implementação da US.
+Registre cada mudança relevante ocorrida durante a implementação da US apenas quando `project_tracking.tool: local`, fallback markdown, ou `release_management.strategy: manual-changelog`.
 Formato: data, o que mudou, por quê, impacto.
 
 ```markdown
@@ -211,14 +211,14 @@ Formato: data, o que mudou, por quê, impacto.
 **Impacto:** O que foi afetado (spec, arquitetura, escopo).
 ```
 
-### 2. Tech spec da US — `.milestones/[milestone]/[US-XX]/tech-spec.md`
+### 2. Tech spec da US — `[delivery_docs.path]/[level1]/[US-XX]/tech-spec.md`
 
 Marque cada task concluída. Atualize status no topo do arquivo para `✅ Concluída`.
 
-### 3. Milestone — `.milestones/[milestone]/milestone.md`
+### 3. Agrupamento — `[delivery_docs.path]/[level1]/[level1].md`
 
 Marque a US como concluída: `- [x] US-XX: [título]`.
-Atualize o status do milestone se todas as USs foram concluídas.
+Atualize o status do agrupamento se todas as USs foram concluídas.
 
 ---
 
@@ -275,7 +275,7 @@ Atualize apenas se novos padrões ou arquivos de referência emergiram.
 
 ## Estrutura de docs
 - .catalog/ — documentação de contexto do projeto
-- .milestones/ — documentação de entregas por milestone
+- [delivery_docs.path]/ — documentação de entregas quando tracking local ou fallback
 - .handoffs/ — handoffs entre sessões de agente
 
 ## Regras críticas
@@ -347,16 +347,20 @@ referencie o spec gerado em `.catalog/integrations.md` — não duplique o conte
 - Sinalize o que é beta ou sujeito a mudança
 - Linter deve validar cross-links após atualização
 - Jamais delete ADRs — são memória histórica do projeto
-- Docs de entrega: sempre atualizar. Docs de contexto: só se mudou algo real.
+- Docs de entrega: atualizar quando forem fonte ativa ou fallback. Docs de contexto: só se mudou algo real.
 ```
 
 ---
 ## Saída esperada
 
 **Sempre:**
-- `.milestones/[US]/changelog.md` atualizado
-- `.milestones/[US]/tech-spec.md` com tasks marcadas
-- `.milestones/milestone.md` com US marcada
+- Tracking fechado conforme `project_tracking.tool`
+- Release/changelog tratado conforme `release_management.strategy`
+
+**Se tracking local ou fallback markdown:**
+- `[delivery_docs.path]/[US]/changelog.md` atualizado quando aplicável
+- `[delivery_docs.path]/[US]/tech-spec.md` com tasks marcadas
+- `[delivery_docs.path]/[level1].md` com US marcada
 
 **Se aplicável:**
 - `.catalog/[arquivo].md` atualizado (architecture, conventions, concerns, features)

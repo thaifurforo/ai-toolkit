@@ -49,7 +49,7 @@ Dependências fluem apenas para frente. Violações → linter bloqueia + mensag
 
 - `.catalog/` atualizado (`architecture.md`, `stack.md`, `domain.md`)
 - `AGENTS.md` criado/atualizado
-- Tech Solution persistida conforme `project_tracking.tool` — ver `references/11-project-tracking.md`
+- Tech Solution persistida conforme `project_tracking.tool` — ver `harness-engineering/references/11-project-tracking.md`
 
 ## Próximo Passo → `harness-tasks`
 

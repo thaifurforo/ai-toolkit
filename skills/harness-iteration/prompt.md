@@ -121,7 +121,7 @@ Baseado nos dados, recomende:
 
 **🔁 Iterar** — feature no caminho certo, ajustes incrementais
 - Volta ao Prompt 03 com backlog priorizado como novas tasks
-- Atualiza .milestones/ com novo milestone
+- Atualiza o tracking configurado com novo agrupamento/backlog priorizado
 
 **🔄 Pivotar** — hipótese errada, precisa repensar escopo
 - Volta ao Prompt 01 com aprendizados como contexto do novo PRD

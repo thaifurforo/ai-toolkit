@@ -52,8 +52,8 @@ P = horas | M = 1–2 dias | G = 3–5 dias | XG = >5 dias (quebrar em tasks men
 
 ## Saída Esperada
 
-- Hierarquia e rastreamento conforme `harness.config.yaml` — ver `references/11-project-tracking.md`
-- Documentação de entrega: `[delivery_docs.path]/[level1-nome]/` com `[level1].md` + pasta por `[level2-XX]` contendo `user-story.md`, `tech-spec.md`, `changelog.md`
+- Hierarquia e rastreamento conforme `project_tracking.tool` — ver `harness-engineering/references/11-project-tracking.md`
+- Documentação de entrega em `[delivery_docs.path]/` apenas quando `project_tracking.tool: local` ou fallback markdown
 
 ## Próximo Passo → `harness-implementation`
 

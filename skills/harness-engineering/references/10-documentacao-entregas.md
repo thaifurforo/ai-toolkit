@@ -1,23 +1,23 @@
 # Referência 10 — Templates de Documentação de Entregas
 
-Modelos canônicos para os arquivos de entrega.
-Use-os sempre que gerar documentação de uma nova entrega.
+Modelos canônicos para arquivos de entrega quando `project_tracking.tool: local` ou quando uma ferramenta externa precisa de fallback markdown.
 
 > **Hierarquia configurável:** Os templates usam `epic > user-story > task` como padrão.
 > Substitua pelo que estiver em `harness.config.yaml` (`hierarchy.level1/2/3`).
 > O caminho da pasta é `delivery_docs.path` (padrão: `.milestones/`).
+> Milestone versionada não é obrigatória; ela só é padrão quando `release_management.strategy: github-legacy` ou `project_tracking.github.milestone_policy: versioned`.
 
 ---
 
-## Estrutura esperada
+## Estrutura esperada para `project_tracking.tool: local`
 
 ```
 [delivery_docs.path]/           ← padrão: .milestones/
   [level1-nome]/                ← padrão: epic-nome/
-    [level1].md                 ← visão geral + level2s + mapa de deps  (padrão: epic.md)
+    [level1].md                 ← visão geral + level2s + mapa de deps
     prd.md                      ← requisitos de negócio (gerado na Etapa 01)
     tech-solution.md            ← solução técnica do level1 (gerado na Etapa 02)
-    [level2-XX-nome]/           ← padrão: US-XX-nome/
+    [level2-XX-nome]/
       user-story.md             ← história + critérios de aceite
       tech-spec.md              ← spec técnica + tasks
       changelog.md              ← registro de mudanças durante a entrega
@@ -28,10 +28,10 @@ Use-os sempre que gerar documentação de uma nova entrega.
 
 ---
 
-## Template: [level1].md (padrão: epic.md)
+## Template: [level1].md
 
 ```markdown
-# Epic: [Nome] — [Versão/Identificador]
+# [Level1]: [Nome] — [Identificador opcional]
 
 Status: pending | in-progress | done
 Criado: YYYY-MM-DD
@@ -40,7 +40,7 @@ Solução técnica: [delivery_docs.path]/[level1-nome]/tech-solution.md
 
 ---
 
-## [level2]s (padrão: User Stories)
+## [level2]s
 
 - [ ] US-01: [Nome] (T-01, T-02, T-03)
 - [ ] US-02: [Nome] (T-04, T-05)
@@ -57,15 +57,14 @@ graph TD
 
 ---
 
-## Checklist de Release (develop → main)
+## Checklist de entrega
 
-- [ ] `superpowers:code-reviewer` executado e blockers/majors resolvidos
-- [ ] `dotnet test` + `npm run test` passando; arch tests sem violações
-- [ ] `.catalog/` e `AGENTS.md` atualizados
-- [ ] PR aberto de develop → main com descrição dos CAs atendidos
-- [ ] Deploy nonprd (via PR) verificado antes do merge
+- [ ] Revisão executada e blockers resolvidos
+- [ ] Testes/lint/build relevantes passando
+- [ ] `.catalog/` e `AGENTS.md` atualizados quando aplicável
+- [ ] PR aberto com descrição dos CAs atendidos, quando houver GitHub
 
-> **🚫 Merge de PRs é exclusivamente responsabilidade do humano — o agente nunca faz merge.**
+> Merge de PRs é exclusivamente responsabilidade do humano — o agente nunca faz merge.
 ```
 
 ---
@@ -73,13 +72,11 @@ graph TD
 ## Template: prd.md
 
 ```markdown
-# PRD: [Nome do Milestone]
+# PRD: [Nome do agrupamento]
 
 **Data:** YYYY-MM-DD
 **Desenvolvedor:** [perfil — ex: Solo developer (.NET C#)]
 **Status:** Em elaboração | Aprovado
-
----
 
 ## Visão Geral
 
@@ -87,30 +84,17 @@ graph TD
 
 **Quem perde sem isso:** [quem é impactado e como]
 
----
-
 ## Escopo
 
-### ✅ In Scope
+### In Scope
 
 - [item 1]
 - [item 2]
 
-### ❌ Out of Scope
+### Out of Scope
 
 - [item 1]
 - [item 2]
-
----
-
-## Personas
-
-**Persona 1 — [Nome]**
-- **Contexto:** [situação de uso]
-- **Motivação:** [o que quer alcançar]
-- **Frustrações atuais:** [dores concretas]
-
----
 
 ## Requisitos Funcionais
 
@@ -123,51 +107,17 @@ graph TD
 - [ ] CA-01.1: [critério mensurável e verificável]
 - [ ] CA-01.2: [critério mensurável e verificável]
 
----
-
 ## Requisitos Não Funcionais
 
 **RNF-01 — [Nome]**
 
 [Descrição da restrição de qualidade.]
 
----
-
-## Fluxo de Usuário
-
-1. [passo 1]
-2. [passo 2]
-3. [passo 3]
-
----
-
-## Métricas de Sucesso
-
-| KPI | Baseline | Meta |
-|-----|----------|------|
-| [métrica] | [valor atual] | [valor alvo] |
-
----
-
 ## Riscos e Dependências
 
-### Riscos
-
-| ID | Risco | Severidade | Mitigação |
-|----|-------|-----------|-----------|
+| ID | Risco/Dependência | Severidade | Mitigação |
+|----|-------------------|------------|-----------|
 | R-01 | [descrição] | Alto/Médio/Baixo | [ação] |
-
-### Dependências
-
-| ID | Dependência | Tipo | Impacto |
-|----|------------|------|---------|
-| D-01 | [dependência] | Externo/Interno | [impacto] |
-
----
-
-## Anexos / Decisões Adiadas
-
-- [decisão adiada e motivo]
 ```
 
 ---
@@ -175,7 +125,7 @@ graph TD
 ## Template: tech-solution.md
 
 ```markdown
-# Solução Técnica: [Nome do Milestone]
+# Solução Técnica: [Nome do agrupamento]
 
 **Data:** YYYY-MM-DD
 **Status:** Em elaboração | Aprovada
@@ -188,50 +138,21 @@ Breve descrição do problema técnico e de negócio que essa entrega resolve.
 
 Descrição da abordagem escolhida.
 
-### Fluxo principal
-
-```mermaid
-sequenceDiagram
-    participant User
-    participant Frontend
-    participant API
-    participant DB
-    User->>Frontend: [ação]
-    Frontend->>API: [chamada]
-    API->>DB: [consulta]
-    DB-->>API: [resposta]
-    API-->>Frontend: [retorno]
-    Frontend-->>User: [resultado]
-```
-
-### Decisões técnicas
+## Decisões técnicas
 
 | Decisão | Alternativas consideradas | Motivo da escolha |
 |---------|--------------------------|-------------------|
 | [decisão] | [alternativas] | [razão] |
 
-## Modelo de dados
-
-[tabelas SQL ou diagrama das entidades principais]
-
-## Contratos de API
-
-[endpoints principais com método, path, response e erros]
-
 ## Impactos
 
-- Quais partes do sistema são afetadas?
+- Partes do sistema afetadas
 - Há breaking changes?
 - O que no `.catalog/` precisa ser atualizado após essa entrega?
 
 ## Fora do escopo
 
 O que foi explicitamente deixado de fora e por quê.
-
-## Referências
-
-- `../prd.md`
-- `.catalog/architecture.md`
 ```
 
 ---
@@ -241,8 +162,8 @@ O que foi explicitamente deixado de fora e por quê.
 ```markdown
 # [US-XX] — [Título da User Story]
 
-**Milestone:** [nome do milestone]
-**Status:** ⏳ Pendente | 🔄 Em andamento | ✅ Concluída
+**Agrupamento:** [nome do level1]
+**Status:** Pendente | Em andamento | Concluída
 
 ## História
 
@@ -261,7 +182,7 @@ O que explicitamente não será coberto por essa US.
 
 ## Referências
 
-- Milestone: `../milestone.md`
+- Agrupamento: `../[level1].md`
 - Spec técnica: `./tech-spec.md`
 ```
 
@@ -272,25 +193,16 @@ O que explicitamente não será coberto por essa US.
 ```markdown
 # Spec Técnica — [US-XX] [Título da User Story]
 
-**Milestone:** [nome do milestone]
-**Status:** ⏳ Pendente | 🔄 Em andamento | ✅ Concluída
+**Agrupamento:** [nome do level1]
+**Status:** Pendente | Em andamento | Concluída
 
 ## Contexto
 
 Breve descrição técnica do que precisa ser construído para atender essa US.
-Referencie a user story e qualquer decisão de arquitetura relevante.
 
 ## Solução
 
-### Fluxo
-
 [passos numerados ou diagrama mermaid]
-
-### Decisões técnicas
-
-| Decisão | Alternativas consideradas | Motivo da escolha |
-|---------|--------------------------|-------------------|
-| | | |
 
 ## Tarefas
 
@@ -302,27 +214,11 @@ Referencie a user story e qualquer decisão de arquitetura relevante.
 - [ponto técnico relevante]
 - [ponto técnico relevante]
 
----
-
-### T-XX — [Nome da Tarefa]
-
-**Descrição:** O que deve ser implementado.
-**Critérios de aceite relacionados:** CA-03
-**Detalhes técnicos:**
-- [ponto técnico relevante]
-
----
-
 ## Impactos
 
 - Partes do sistema afetadas
 - Breaking changes?
 - O que no `.catalog/` precisa ser atualizado após essa US?
-
-## Referências
-
-- User story: `./user-story.md`
-- `.catalog/[arquivo-relevante].md`
 ```
 
 ---
@@ -335,14 +231,10 @@ Referencie a user story e qualquer decisão de arquitetura relevante.
 ## YYYY-MM-DD — Início da entrega
 Entrega iniciada com base em `user-story.md` e `tech-spec.md`.
 
----
-
 ## YYYY-MM-DD — [Título curto da mudança]
 **O que mudou:** Descrição objetiva da mudança.
 **Por quê:** Motivação — o que foi descoberto ou decidido que levou à mudança.
 **Impacto:** O que foi afetado (spec, arquitetura, escopo).
-
----
 
 ## YYYY-MM-DD — Entrega concluída
 **O que mudou:** [resumo do que foi entregue]

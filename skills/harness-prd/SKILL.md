@@ -45,7 +45,7 @@ Se a resposta for vaga: oferecer 2–3 exemplos concretos e explicar por que a i
 ## Saída Esperada
 
 - PRD completo em Markdown com IDs rastreáveis (RF-01, RNF-01, CA-01)
-- Persistido conforme `project_tracking.tool` em `harness.config.yaml` — ver `references/11-project-tracking.md`
+- Persistido conforme `project_tracking.tool` em `harness.config.yaml` — ver `harness-engineering/references/11-project-tracking.md`
 
 ## Próximo Passo → `harness-architecture`
 

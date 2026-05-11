@@ -19,7 +19,8 @@ harness-engineering/       ← orquestrador: mental model, tabela de etapas, flu
 │   ├── 00-setup-wizard.md      ← wizard de setup: gera harness.config.yaml
 │   ├── 10-documentacao-entregas.md ← templates canônicos de entrega
 │   ├── 11-project-tracking.md  ← como persistir por ferramenta (GitHub/Jira/Linear/ADO)
-│   └── 12-fallback-skills.md   ← conteúdo condensado de 14 skills externas
+│   ├── 12-fallback-skills.md   ← conteúdo condensado de 14 skills externas
+│   └── 13-release-management.md ← como versionar releases e changelogs
 ├── harness-prd/            ← 01. PRD com ProductBuddy (SPECIFY)
 ├── harness-architecture/   ← 02. Arquitetura técnica + harnessability map (DESIGN)
 ├── harness-tasks/          ← 03. Breakdown de tasks + dependency map (TASKS)
@@ -63,7 +64,8 @@ Cada sub-skill contém:
 
 Na primeira invocação em um novo projeto, o orquestrador executa um wizard interativo (`references/00-setup-wizard.md`) e gera um `harness.config.yaml` na raiz do projeto. Este arquivo configura:
 
-- **`project_tracking.tool`** — ferramenta de rastreamento: `github` (Issues + Milestones), `jira`, `linear`, `azuredevops` ou `local` (markdown)
+- **`project_tracking.tool`** — ferramenta de rastreamento: `github` (Issues + Projects), `jira`, `linear`, `azuredevops` ou `local` (markdown)
+- **`release_management.strategy`** — estratégia de release: `github-auto-release`, `github-legacy`, `release-please`, `manual-changelog` ou `none`
 - **`hierarchy`** — nomenclatura de níveis: padrão `epic > user-story > task`, configurável para `milestone > story > task`, `sprint > feature > subtask` etc.
 - **`delivery_docs.path`** — pasta para docs de entrega (padrão: `.milestones/`)
 - **`skills`** — quais skills externas estão disponíveis (`tlc_spec_driven`, `context7`, `superpowers`, `mermaid_studio`)
