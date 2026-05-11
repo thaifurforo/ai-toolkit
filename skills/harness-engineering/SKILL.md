@@ -45,17 +45,24 @@ Nunca crie tasks sem RF. Nunca feche task sem gate verificado. Nunca abra PR sem
 
 ---
 
-## Modos de tracking configuráveis
+## Tracking e release são eixos separados
 
-Leia `project_tracking.mode` em `harness.config.yaml` antes de criar documentação, issues, milestones ou changelog. Se o campo não existir, inferir pelo legado de `project_tracking.tool`, mas preferir registrar explicitamente um dos modos abaixo.
+Leia `project_tracking.tool` e `release_management.strategy` em `harness.config.yaml` antes de criar documentação, issues, milestones, changelog ou release notes.
 
-| Modo | Quando usar | Fonte de verdade | Release/versionamento |
-|------|-------------|------------------|------------------------|
-| `local-markdown` | Projeto sem GitHub Projects ou quando o usuário quer controlar tudo no repositório | Markdown em `delivery_docs.path` (padrão `.milestone/`) | Changelog local/manual conforme convenção do projeto |
-| `github-legacy` | Projeto que usa o padrão antigo de GitHub Project + Milestones versionadas | GitHub Issues + Project + Milestones | Milestone pode representar uma versão planejada |
-| `github-auto-release` | **Recomendado** para projetos com workflow moderno | GitHub Issues + Project + Milestones temáticas | PR para `main` usa exatamente uma label `release:patch`, `release:minor` ou `release:major`; workflow calcula SemVer e publica GitHub Release |
+| Eixo | Campo | Valores suportados | Decide |
+|------|-------|--------------------|--------|
+| Gestão de projeto | `project_tracking.tool` | `github`, `jira`, `linear`, `azuredevops`, `local` | Onde vivem PRD, agrupamentos, user stories, tasks e status |
+| Versionamento de release | `release_management.strategy` | `github-auto-release`, `github-legacy`, `release-please`, `manual-changelog`, `none` | Como versionar, gerar changelog e publicar releases |
 
-Milestones **não** são números de versão por padrão. Milestone versionada é uma escolha exclusiva do modo `github-legacy` ou de configuração explícita do projeto.
+Presets como `github-auto-release` e `github-legacy` são atalhos que preenchem os dois eixos quando o usuário quiser GitHub para tudo. Eles **não** impedem combinações como `project_tracking.tool: jira` + `release_management.strategy: github-auto-release`.
+
+Compatibilidade com configs antigas:
+- `project_tracking.mode: github-auto-release` → `project_tracking.tool: github` + `release_management.strategy: github-auto-release`.
+- `project_tracking.mode: github-legacy` → `project_tracking.tool: github` + `release_management.strategy: github-legacy`.
+- `project_tracking.mode: local-markdown` → `project_tracking.tool: local` + `release_management.strategy: manual-changelog`.
+- `project_tracking.tool: github|jira|linear|azuredevops|local` continua válido.
+
+Milestones **não** são números de versão por padrão. Milestone versionada é escolha de `release_management.strategy: github-legacy` ou configuração explícita em `project_tracking.github.milestone_policy: versioned`.
 
 ---
 
@@ -65,16 +72,17 @@ Milestones **não** são números de versão por padrão. Milestone versionada �
 AGENTS.md (≤100 linhas — tabela de roteamento)
   ↓ aponta para:
 .catalog/                    ← fonte de verdade técnica versionada no repositório
-[delivery_docs.path]/        ← docs de entrega quando `project_tracking.mode: local-markdown`
-Ferramenta de rastreamento   ← GitHub/markdown conforme `project_tracking.mode`
-GitHub Releases ou changelog ← conforme modo e automação do projeto
+[delivery_docs.path]/        ← docs de entrega quando `project_tracking.tool: local` ou fallback
+Ferramenta de rastreamento   ← GitHub/Jira/Linear/Azure DevOps/markdown conforme `project_tracking.tool`
+GitHub Releases ou changelog ← conforme `release_management.strategy`
 .handoffs/ (sessão)          ← handoffs inter-sessão apenas (temporário)
 ```
 
-**Regra de ouro:** decisão técnica permanente → `.catalog/`. Planejamento e entregas → tracking configurado. Não duplique uma fonte ativa em markdown se o projeto declara GitHub como fonte de verdade.
+**Regra de ouro:** decisão técnica permanente → `.catalog/`. Planejamento e entregas → tracking configurado. Não duplique uma fonte ativa em markdown se o projeto declara uma ferramenta externa como fonte de verdade.
 
-**Templates canônicos** para `[delivery_docs.path]/`: `references/10-documentacao-entregas.md`  
-**Como persistir por modo:** `references/11-project-tracking.md`
+**Templates canônicos** para `[delivery_docs.path]/`: `references/10-documentacao-entregas.md`
+**Como persistir por ferramenta:** `references/11-project-tracking.md`
+**Como versionar releases:** `references/13-release-management.md`
 
 ---
 
@@ -97,7 +105,7 @@ Para cada etapa, invoque a skill correspondente:
 
 Cada skill é **autossuficiente**: contém a persona, o processo detalhado e o prompt template em `./prompt.md`.
 
-> **Etapa 00:** Se `harness.config.yaml` não existe → executar wizard em `references/00-setup-wizard.md` antes de prosseguir. Se existe → ler config, especialmente `project_tracking.mode`, e mapear variáveis antes de qualquer etapa.
+> **Etapa 00:** Se `harness.config.yaml` não existe → executar wizard em `references/00-setup-wizard.md` antes de prosseguir. Se existe → ler config, especialmente `project_tracking.tool` e `release_management.strategy`, e mapear variáveis antes de qualquer etapa.
 
 ---
 
@@ -163,7 +171,7 @@ TLC "quick fix" → 04 Código → gate → commit
 
 ```
 Para cada US do agrupamento (em ordem de dependência):
-  1. 03 tracking/docs criados conforme `project_tracking.mode`
+  1. 03 tracking/docs criados conforme `project_tracking.tool`
   2. 04 Código → 05 Review → 06 Testes → 07 Docs
   3. PR aberto pelo agente com descrição completa
   4. PARAR — aguardar humano revisar, aprovar e mergear
@@ -175,7 +183,7 @@ Para cada US do agrupamento (em ordem de dependência):
 05 Review OK → 06 Testes OK → 07 Docs OK → PR aberto → checks verificados → merge (humano)
 ```
 
-No modo `github-auto-release`, o PR para `main` deve fechar issue com closing keyword e conter exatamente uma label `release:*`.
+Com `release_management.strategy: github-auto-release`, o PR para `main` deve fechar issue com closing keyword e conter exatamente uma label `release:*`, mesmo que a gestão de projeto esteja em Jira, Linear ou Azure DevOps.
 
 > **RESTRIÇÃO ABSOLUTA:** O agente **NUNCA** faz merge de qualquer PR. Exclusivamente responsabilidade do usuário humano. Sem exceções.
 
@@ -214,7 +222,8 @@ Types → Config → Repository → Service → Runtime → UI
 - Linting: [ferramenta]
 - Testes: [framework], cobertura mínima [X]%
 - Branches: main / develop / feature/T-XX-descricao
-- Tracking: `project_tracking.mode` em `harness.config.yaml`
+- Tracking: `project_tracking.tool` em `harness.config.yaml`
+- Release: `release_management.strategy` em `harness.config.yaml`
 
 ## Skills instaladas
 - [ ] tlc-spec-driven
@@ -235,10 +244,11 @@ Types → Config → Repository → Service → Runtime → UI
 
 | Arquivo | Conteúdo |
 |---------|----------|
-| `references/00-setup-wizard.md` | Wizard de setup: detecta config, escolhe modo de tracking e gera `harness.config.yaml` |
-| `references/10-documentacao-entregas.md` | Templates canônicos para `local-markdown` e fallback markdown |
-| `references/11-project-tracking.md` | Como persistir outputs por modo (`local-markdown`, `github-legacy`, `github-auto-release`) |
+| `references/00-setup-wizard.md` | Wizard de setup: detecta config, escolhe tracking e release separadamente |
+| `references/10-documentacao-entregas.md` | Templates canônicos para tracking local e fallback markdown |
+| `references/11-project-tracking.md` | Como persistir outputs por ferramenta (`github`, `jira`, `linear`, `azuredevops`, `local`) |
 | `references/12-fallback-skills.md` | Conteúdo condensado de 14 skills externas — usar quando a skill não estiver instalada |
+| `references/13-release-management.md` | Como versionar releases e changelogs por estratégia |
 
 ---
 

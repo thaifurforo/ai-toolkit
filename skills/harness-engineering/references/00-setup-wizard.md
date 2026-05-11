@@ -24,18 +24,32 @@ Perguntar ao usuário, uma pergunta por vez. Ao final, criar `harness.config.yam
 
 "Como se chama este projeto?"
 
-### 2. Modo de tracking
+### 2. Ferramenta de gestão de projeto
 
-"Como você quer controlar o projeto e as entregas?"
+"Onde você quer controlar projeto, entregas e tarefas?"
 
-- `github-auto-release` — **recomendado**: GitHub Issues + Project v2 + Milestones temáticas; PRs para `main` usam `release:patch`, `release:minor` ou `release:major` e o workflow publica GitHub Releases automaticamente.
-- `local-markdown` — documentos markdown persistidos no repositório, em `.milestone/` ou no caminho configurado em `delivery_docs.path`.
-- `github-legacy` — padrão com GitHub Issues + Project + Milestones, onde a milestone pode representar uma versão planejada.
+- `github` — GitHub Issues + Projects + Milestones
+- `jira` — Jira Board + Epics/Stories/Subtasks
+- `linear` — Linear Teams + Projects/Cycles/Issues
+- `azuredevops` — Azure DevOps Boards
+- `local` — documentos markdown persistidos no repositório
 - Outra (digitar livremente)
 
-> Se o usuário não souber ou não responder, usar `github-auto-release` quando houver repositório GitHub; caso contrário, usar `local-markdown`.
+> Se o usuário não souber ou não responder, usar `github` quando houver repositório GitHub conectado; caso contrário, usar `local`.
 
-### 3. Hierarquia de trabalho
+### 3. Estratégia de release/versionamento
+
+"Como você quer versionar releases e changelog?"
+
+- `github-auto-release` — PRs para `main` usam exatamente uma label `release:patch`, `release:minor` ou `release:major`; workflow publica GitHub Releases automaticamente.
+- `github-legacy` — milestones do GitHub podem representar versões planejadas.
+- `release-please` — Conventional Commits alimentam changelog e release automática.
+- `manual-changelog` — manter `CHANGELOG.md` ou `changelog.md` manualmente.
+- `none` — sem versionamento formal nesta fase.
+
+> Se o usuário escolher `github-auto-release` ou `github-legacy`, isso não obriga `project_tracking.tool: github`. GitHub pode ser usado só para release enquanto o trabalho fica em Jira, Linear, Azure DevOps ou markdown local.
+
+### 4. Hierarquia de trabalho
 
 "Qual é a estrutura de agrupamento do seu projeto? (Enter para usar o padrão)"
 
@@ -50,23 +64,31 @@ Ou digitar livremente. A skill usará os termos configurados em todos os templat
 
 > Se o usuário não responder ou der Enter sem digitar → usar `epic > user-story > task` e seguir em frente.
 
-### 4. Localização dos docs de entrega
+### 5. Localização dos docs de entrega
 
-Perguntar apenas para `local-markdown` ou quando o projeto quiser fallback markdown:
+Perguntar apenas para `project_tracking.tool: local` ou quando o projeto quiser fallback markdown:
 
-"Onde armazenar os arquivos de documentação de entrega?" (padrão: `.milestone/`)
+"Onde armazenar os arquivos de documentação de entrega?" (padrão: `.milestones/`)
 
-### 5. Detalhes do GitHub
+### 6. Detalhes da ferramenta de tracking
 
-Perguntar apenas para `github-auto-release` ou `github-legacy`:
+Perguntar conforme `project_tracking.tool`:
 
-"Owner e nome do repositório? (ex: org/repo — inferível do git remote se omitido)"
+- GitHub: "Owner/repo e nome ou URL do GitHub Project? (inferível do git remote se omitido)"
+- Jira: "URL do Jira, Project Key e Board ID?"
+- Linear: "Team ID ou slug do time?"
+- Azure DevOps: "Organização e projeto?"
 
-Se houver Project v2, perguntar também:
+### 7. Detalhes de release
 
-"Nome ou URL do GitHub Project?"
+Perguntar conforme `release_management.strategy`:
 
-### 6. Skills disponíveis
+- `github-auto-release`: "Owner/repo para publicar GitHub Release? Labels são `release:patch`, `release:minor`, `release:major` ou outros nomes?"
+- `github-legacy`: "Milestones são versionadas, temáticas ou inexistentes?"
+- `release-please`: "Release Please já está configurado no repositório?"
+- `manual-changelog`: "Changelog principal fica em `CHANGELOG.md` ou nos docs de entrega?"
+
+### 8. Skills disponíveis
 
 Verificar automaticamente tentando invocar cada skill. Perguntar confirmação:
 
@@ -85,13 +107,27 @@ project:
   name: "[nome do projeto]"
 
 project_tracking:
-  mode: github-auto-release # github-auto-release | github-legacy | local-markdown
-  # Compatibilidade com configs antigas: tool pode ser github, local etc.
-  tool: github-auto-release
+  tool: github              # github | jira | linear | azuredevops | local
+  source_of_truth: external # external | markdown
+  github:
+    repository: org/repo
+    project_url: "https://github.com/orgs/org/projects/1"
+    milestone_policy: thematic # thematic | versioned | none
+  jira:
+    url: "https://example.atlassian.net"
+    project_key: "PROJ"
+    board_id: "123"
+  linear:
+    team_id: "team-slug"
+  azuredevops:
+    organization: "org"
+    project: "project-name"
+
+release_management:
+  strategy: github-auto-release # github-auto-release | github-legacy | release-please | manual-changelog | none
   repository: org/repo
-  project: "[nome do project]"
-  project_url: "https://github.com/users/org/projects/1"
-  release_labels:
+  version_source: pr-label      # pr-label | milestone | conventional-commits | manual
+  labels:
     patch: release:patch
     minor: release:minor
     major: release:major
@@ -102,7 +138,7 @@ hierarchy:
   level3: task        # unidade de implementação (ex: subtask, ticket, card)
 
 delivery_docs:
-  path: .milestone    # usado por local-markdown e fallback markdown
+  path: .milestones   # usado por project_tracking.tool: local e fallback markdown
 
 skills:
   tlc_spec_driven: false
@@ -119,11 +155,22 @@ Na **abertura de cada sessão**, ler `harness.config.yaml` e mapear as variávei
 
 | Variável do config | Substitui nos templates |
 |--------------------|------------------------|
-| `project_tracking.mode` | modo de persistência e release |
+| `project_tracking.tool` | ferramenta de persistência do trabalho |
+| `release_management.strategy` | estratégia de versionamento e changelog |
 | `hierarchy.level1` | "epic" (padrão) |
 | `hierarchy.level2` | "user-story" / "US" (padrão) |
 | `hierarchy.level3` | "task" / "T-XX" (padrão) |
-| `delivery_docs.path` | pasta de docs em `local-markdown` ou fallback |
+| `delivery_docs.path` | pasta de docs em `project_tracking.tool: local` ou fallback |
 | `skills.*` | se `true`: invocar skill; se `false`: usar `references/12-fallback-skills.md` |
+
+## Compatibilidade com Configs Antigas
+
+Se encontrar `project_tracking.mode`, migrar mentalmente antes de executar:
+
+| Campo antigo | Novo tracking | Novo release |
+|--------------|---------------|--------------|
+| `github-auto-release` | `project_tracking.tool: github` | `release_management.strategy: github-auto-release` |
+| `github-legacy` | `project_tracking.tool: github` | `release_management.strategy: github-legacy` |
+| `local-markdown` | `project_tracking.tool: local` | `release_management.strategy: manual-changelog` |
 
 > **Regra:** O config é a fonte de verdade para comportamento do pipeline. Se for ambíguo, perguntar ao usuário e atualizar o config.

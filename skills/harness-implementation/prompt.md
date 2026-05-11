@@ -155,7 +155,7 @@ Closes: T-[N], CA-01, CA-02
 - [ ] CA-02 verificado: [como]
 - [ ] Camada de arquitetura respeitada (linter passou)
 - [ ] Nenhuma API de lib inventada (Context7 consultado)
-- [ ] `.milestones/` atualizado (task marcada como concluída)
+- [ ] Tracking atualizado conforme `project_tracking.tool` (task marcada como concluída)
 ```
 
 ---
@@ -198,7 +198,7 @@ Se perceber que o contexto está acima de ~40% da janela:
 
 ---
 ## Saída esperada
-Código + testes + commit message + checklist de conclusão + .milestones/ atualizado.
+Código + testes + commit message + checklist de conclusão + tracking atualizado conforme `project_tracking.tool`.
 
 ## Próximo passo → Prompt 05 (Code Review)
 Antes de abrir o PR. Acione `requesting-code-review` do Superpowers.

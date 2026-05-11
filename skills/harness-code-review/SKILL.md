@@ -60,6 +60,7 @@ Todo PR criado por agente deve incluir:
 5. **Como testar — QA** — passos funcionais no browser
 6. **Evidências** — saída dos testes, screenshots, respostas do curl
 7. **Checklist** — sensores computacionais executados, sem secrets expostos, arch tests OK
+8. **Release** — seguir `release_management.strategy`; se for `github-auto-release`, aplicar exatamente uma label `release:patch`, `release:minor` ou `release:major`
 
 **Tamanho de PR:** ideal 300–600 linhas de código funcional (excluindo código auto-gerado). Máximo ~1000 linhas.
 

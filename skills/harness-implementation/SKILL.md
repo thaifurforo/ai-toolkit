@@ -76,7 +76,7 @@ Se o contexto ultrapassar ~40% da janela: escrever handoff em `.handoffs/handoff
 
 ## Saída Esperada
 
-Código + testes + mensagem de commit + checklist de conclusão + `.milestones/` atualizado.
+Código + testes + mensagem de commit + checklist de conclusão + tracking atualizado conforme `project_tracking.tool`.
 
 ## Próximo Passo → `harness-code-review`
 

@@ -1,18 +1,18 @@
 # Referência 10 — Templates de Documentação de Entregas
 
-Modelos canônicos para arquivos de entrega quando `project_tracking.mode: local-markdown` ou quando um modo GitHub precisa de fallback markdown.
+Modelos canônicos para arquivos de entrega quando `project_tracking.tool: local` ou quando uma ferramenta externa precisa de fallback markdown.
 
 > **Hierarquia configurável:** Os templates usam `epic > user-story > task` como padrão.
 > Substitua pelo que estiver em `harness.config.yaml` (`hierarchy.level1/2/3`).
-> O caminho da pasta é `delivery_docs.path` (padrão: `.milestone/`).
-> Milestone versionada não é obrigatória; ela só é padrão quando o projeto usa `project_tracking.mode: github-legacy` e escolhe milestones como versões planejadas.
+> O caminho da pasta é `delivery_docs.path` (padrão: `.milestones/`).
+> Milestone versionada não é obrigatória; ela só é padrão quando `release_management.strategy: github-legacy` ou `project_tracking.github.milestone_policy: versioned`.
 
 ---
 
-## Estrutura esperada para `local-markdown`
+## Estrutura esperada para `project_tracking.tool: local`
 
 ```
-[delivery_docs.path]/           ← padrão: .milestone/
+[delivery_docs.path]/           ← padrão: .milestones/
   [level1-nome]/                ← padrão: epic-nome/
     [level1].md                 ← visão geral + level2s + mapa de deps
     prd.md                      ← requisitos de negócio (gerado na Etapa 01)

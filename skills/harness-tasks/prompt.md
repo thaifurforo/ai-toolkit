@@ -2,15 +2,15 @@
 
 > **Skills Superpowers ([github.com/obra/superpowers](https://github.com/obra/superpowers), opcionais)**
 > Skills especializadas instaláveis em `~/.claude/skills/` (Claude Code) ou `~/.agents/skills/` (demais agentes).
-> - `writing-plans` — persiste o breakdown em `.milestones/` com formato rastreável e links de dependência
+> - `writing-plans` — persiste o breakdown no tracking configurado com formato rastreável e links de dependência
 > - `dispatching-parallel-agents` — identifica tasks independentes e as despacha em paralelo para ganho de velocidade
-> Sem elas, salve o breakdown manualmente em `.milestones/` e execute tasks sequencialmente.
+> Sem elas, salve o breakdown conforme `project_tracking.tool` e execute tasks sequencialmente.
 
 > **Integração com `tlc-spec-driven` (Tech Leads Club, opcional)**
 > A skill [`tlc-spec-driven`](https://agent-skills.techleads.club) organiza o desenvolvimento em três fases: **SPECIFY → DESIGN → EXECUTE**.
 > Esta etapa corresponde à transição **DESIGN → EXECUTE** (breakdown de tasks).
 > Auto-skip recomendado para 1–2 tasks óbvias: vá direto para `harness-implementation`.
-> Sem a skill instalada, use o prompt abaixo e persista o resultado em `.milestones/`.
+> Sem a skill instalada, use o prompt abaixo e persista o resultado conforme `project_tracking.tool`.
 
 ---
 
@@ -135,22 +135,34 @@ Sprint 4 (polish):
 ```
 
 ---
-## 6. MILESTONE.MD (.milestones/[nome]/milestone.md)
+## 6. TRACKING DE ENTREGA
+
+Persista o breakdown conforme `project_tracking.tool`:
+
+- `github`: GitHub Issues/Projects/Milestone conforme `project_tracking.github.milestone_policy`.
+- `jira`: Epic → Story → Sub-tasks no board configurado.
+- `linear`: Project/Cycle → Issues → Sub-issues/checklists.
+- `azuredevops`: Epic → User Story → Tasks.
+- `local`: arquivos markdown em `[delivery_docs.path]/`.
+
+Não troque a ferramenta de tracking por causa da estratégia de release. Se `release_management.strategy: github-auto-release`, a label `release:*` fica no PR GitHub, mas Jira/Linear/Azure DevOps podem continuar sendo a fonte de trabalho.
+
+## 7. ARQUIVO DE LEVEL1 (somente `project_tracking.tool: local` ou fallback markdown)
 
 > **Nota:** `prd.md` e `tech-solution.md` já foram gerados nas Etapas 01 e 02 respectivamente.
-> Esta seção cria apenas o `milestone.md` (visão geral + USs + mapa de deps) e os arquivos por US.
-> Não regere `prd.md` nem `tech-solution.md` nesta etapa — apenas referencie-os no milestone.md.
+> Esta seção cria apenas o `[level1].md` (visão geral + USs + mapa de deps) e os arquivos por US.
+> Não regere `prd.md` nem `tech-solution.md` nesta etapa — apenas referencie-os no arquivo de level1.
 
-Gere o arquivo de milestone antes de iniciar qualquer implementação:
+Gere o arquivo de level1 antes de iniciar qualquer implementação:
 
 ```markdown
-# Milestone: [Nome] — [Versão/Identificador]
+# [Level1]: [Nome] — [Identificador opcional]
 
 Status: in-progress
 Criado: [YYYY-MM-DD]
 Branch: `feature/[nome]` → `develop`
-PRD: .milestones/[nome]/prd.md
-Tech Solution: .milestones/[nome]/tech-solution.md
+PRD: [delivery_docs.path]/[nome]/prd.md
+Tech Solution: [delivery_docs.path]/[nome]/tech-solution.md
 
 ---
 
@@ -171,16 +183,16 @@ graph TD
 ```
 
 ---
-## 7. ARQUIVOS DE USER STORY (para cada US)
+## 8. ARQUIVOS DE USER STORY (somente `project_tracking.tool: local` ou fallback markdown)
 
-Crie um diretório `.milestones/[nome]/[US-XX-nome]/` por US e gere os três arquivos abaixo.
+Crie um diretório `[delivery_docs.path]/[nome]/[US-XX-nome]/` por US e gere os três arquivos abaixo.
 
 ### user-story.md
 
 ```markdown
 # [US-01] — [Título da User Story]
 
-**Milestone:** [nome do milestone]
+**Agrupamento:** [nome do level1]
 **Status:** ⏳ Pendente
 
 ## História
@@ -198,7 +210,7 @@ para que [benefício/objetivo].
 O que explicitamente não será coberto por essa US.
 
 ## Referências
-- Milestone: `../milestone.md`
+- Agrupamento: `../[level1].md`
 - Spec técnica: `./tech-spec.md`
 ```
 
@@ -207,7 +219,7 @@ O que explicitamente não será coberto por essa US.
 ```markdown
 # Spec Técnica — [US-01] [Título]
 
-**Milestone:** [nome do milestone]
+**Agrupamento:** [nome do level1]
 **Status:** ⏳ Pendente
 
 ## Contexto
@@ -264,15 +276,15 @@ Entrega iniciada com base em `user-story.md` e `tech-spec.md`.
 ```
 
 ---
-## 6. PERSISTÊNCIA NO GITHUB
+## 9. PERSISTÊNCIA NO GITHUB (somente `project_tracking.tool: github`)
 
-**Não use `.milestones/` como repositório de tasks — use GitHub Issues.**
+**Não use `[delivery_docs.path]/` como repositório principal de tasks quando GitHub está conectado — use GitHub Issues.**
 
 Após gerar o breakdown, crie:
 
-1. **GitHub Milestone** (um por release/feature-set):
-   - Título: `v1.x — [nome da feature]`
-   - Estado: Open (fecha automaticamente quando todas as Issues fecham)
+1. **GitHub Milestone ou Project field**:
+   - Use Milestone quando `project_tracking.github.milestone_policy` for `thematic` ou `versioned`
+   - Use nome versionado apenas quando `milestone_policy: versioned` ou `release_management.strategy: github-legacy`
 
 2. **Issue de Tech Solution** (label: `documentation`, vinculada ao Milestone):
    - Body: decisões técnicas do breakdown, ADRs provisórios, riscos
@@ -292,14 +304,14 @@ Após gerar o breakdown, crie:
 - Toda task mapeia para um RF do PRD via sua US
 - XG (>5 dias) → considere quebrar em tasks menores
 - Tasks sem dependência entre si → marque Parallel: sim
-- GitHub Issues substituem `.milestones/` como rastreabilidade permanente
+- A ferramenta em `project_tracking.tool` substitui `[delivery_docs.path]/` como rastreabilidade permanente quando estiver conectada
 
 ## ESTIMATIVAS
 P = horas | M = 1–2 dias | G = 3–5 dias | XG = >5 dias
 
 ---
 ## Saída esperada
-Stories + tasks com rastreabilidade, estimativas e gates — persistidos como GitHub Issues vinculadas ao Milestone.
+Stories + tasks com rastreabilidade, estimativas e gates — persistidos conforme `project_tracking.tool`.
 
 ## Próximo passo → Prompt 04 (Código)
 Use uma task por vez. Contexto: PRD + Arquitetura + AGENTS.md.
