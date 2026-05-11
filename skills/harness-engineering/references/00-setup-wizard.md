@@ -24,18 +24,16 @@ Perguntar ao usuário, uma pergunta por vez. Ao final, criar `harness.config.yam
 
 "Como se chama este projeto?"
 
-### 2. Ferramenta de gestão de tarefas
+### 2. Modo de tracking
 
-"Você usa alguma ferramenta de gestão de tarefas neste projeto?"
+"Como você quer controlar o projeto e as entregas?"
 
-- `github` — GitHub Issues + Milestones + Projects
-- `jira` — Jira Board + Sprints
-- `linear` — Linear Teams + Cycles
-- `azuredevops` — Azure DevOps Boards
+- `github-auto-release` — **recomendado**: GitHub Issues + Project v2 + Milestones temáticas; PRs para `main` usam `release:patch`, `release:minor` ou `release:major` e o workflow publica GitHub Releases automaticamente.
+- `local-markdown` — documentos markdown persistidos no repositório, em `.milestone/` ou no caminho configurado em `delivery_docs.path`.
+- `github-legacy` — padrão com GitHub Issues + Project + Milestones, onde a milestone pode representar uma versão planejada.
 - Outra (digitar livremente)
-- Não uso / não sei
 
-> Se o usuário não souber, não usar, ou não responder → usar markdown como fallback (sem perguntar mais).
+> Se o usuário não souber ou não responder, usar `github-auto-release` quando houver repositório GitHub; caso contrário, usar `local-markdown`.
 
 ### 3. Hierarquia de trabalho
 
@@ -54,13 +52,19 @@ Ou digitar livremente. A skill usará os termos configurados em todos os templat
 
 ### 4. Localização dos docs de entrega
 
-"Onde armazenar os arquivos de documentação de entrega?" (padrão: `.milestones/`)
+Perguntar apenas para `local-markdown` ou quando o projeto quiser fallback markdown:
 
-### 5. Detalhes da ferramenta (se não local)
+"Onde armazenar os arquivos de documentação de entrega?" (padrão: `.milestone/`)
 
-Se `github`: "Owner e nome do repositório? (ex: org/repo — inferível do git remote se omitido)"  
-Se `jira`: "Board ID e Project Key? (ex: board_id: PROJ-123, project_key: PROJ)"  
-Se `linear`: "Team ID ou slug do time?"
+### 5. Detalhes do GitHub
+
+Perguntar apenas para `github-auto-release` ou `github-legacy`:
+
+"Owner e nome do repositório? (ex: org/repo — inferível do git remote se omitido)"
+
+Se houver Project v2, perguntar também:
+
+"Nome ou URL do GitHub Project?"
 
 ### 6. Skills disponíveis
 
@@ -81,29 +85,30 @@ project:
   name: "[nome do projeto]"
 
 project_tracking:
-  tool: local         # github | jira | linear | azuredevops | local
-  # GitHub:
-  #   owner: org/user
-  #   repo: repo-name
-  # Jira:
-  #   board_id: "PROJ-123"
-  #   project_key: "PROJ"
-  # Linear:
-  #   team_id: "team-slug"
+  mode: github-auto-release # github-auto-release | github-legacy | local-markdown
+  # Compatibilidade com configs antigas: tool pode ser github, local etc.
+  tool: github-auto-release
+  repository: org/repo
+  project: "[nome do project]"
+  project_url: "https://github.com/users/org/projects/1"
+  release_labels:
+    patch: release:patch
+    minor: release:minor
+    major: release:major
 
 hierarchy:
-  level1: epic        # agrupamento de alto nível  (ex: milestone, project, sprint)
-  level2: user-story  # unidade de entrega          (ex: story, feature, item)
-  level3: task        # unidade de implementação    (ex: subtask, ticket, card)
+  level1: epic        # agrupamento de alto nível (ex: milestone, project, sprint)
+  level2: user-story  # unidade de entrega (ex: story, feature, item)
+  level3: task        # unidade de implementação (ex: subtask, ticket, card)
 
 delivery_docs:
-  path: .milestones   # pasta onde ficam os docs de entrega no repositório
+  path: .milestone    # usado por local-markdown e fallback markdown
 
 skills:
-  tlc_spec_driven: false   # true se instalado e deseja usar
-  context7: false          # true se context7-mcp está disponível
-  superpowers: false       # true se superpowers marketplace está instalado
-  mermaid_studio: false    # true se mermaid-studio está disponível
+  tlc_spec_driven: false
+  context7: false
+  superpowers: false
+  mermaid_studio: false
 ```
 
 ---
@@ -114,10 +119,11 @@ Na **abertura de cada sessão**, ler `harness.config.yaml` e mapear as variávei
 
 | Variável do config | Substitui nos templates |
 |--------------------|------------------------|
+| `project_tracking.mode` | modo de persistência e release |
 | `hierarchy.level1` | "epic" (padrão) |
 | `hierarchy.level2` | "user-story" / "US" (padrão) |
 | `hierarchy.level3` | "task" / "T-XX" (padrão) |
-| `project_tracking.tool` | como persistir outputs de cada etapa |
+| `delivery_docs.path` | pasta de docs em `local-markdown` ou fallback |
 | `skills.*` | se `true`: invocar skill; se `false`: usar `references/12-fallback-skills.md` |
 
 > **Regra:** O config é a fonte de verdade para comportamento do pipeline. Se for ambíguo, perguntar ao usuário e atualizar o config.
