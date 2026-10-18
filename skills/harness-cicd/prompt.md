@@ -1,4 +1,4 @@
-# Prompt 08 — CI/CD, Sensores e Garbage Collection
+# Prompt 09 — CI/CD, Sensores e Garbage Collection
 
 ## Objetivo: codificar todos os sensores computacionais e inferenciais no pipeline
 
@@ -318,4 +318,4 @@ Alertas críticos:
 ## Saída esperada
 Workflows CI/CD + Dockerfile + env vars + healthcheck + sensor de GC agendado.
 
-## Próximo passo → Deploy → Monitorar → Prompt 09 (Iteração)
+## Próximo passo → Deploy → Monitorar → Prompt 10 (Iteração)

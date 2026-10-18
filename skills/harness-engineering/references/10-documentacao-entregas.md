@@ -17,6 +17,8 @@ Modelos canônicos para arquivos de entrega quando `project_tracking.tool: local
     [level1].md                 ← visão geral + level2s + mapa de deps
     prd.md                      ← requisitos de negócio (gerado na Etapa 01)
     tech-solution.md            ← solução técnica do level1 (gerado na Etapa 02)
+    interface.md                ← UX/UI + design system + links a assets (Etapa 03, se UI)
+    assets/interface/           ← logo, concept art, mockups (Etapa 03, se UI)
     [level2-XX-nome]/
       user-story.md             ← história + critérios de aceite
       tech-spec.md              ← spec técnica + tasks
@@ -24,7 +26,8 @@ Modelos canônicos para arquivos de entrega quando `project_tracking.tool: local
 ```
 
 > `prd.md` e `tech-solution.md` são gerados **uma vez por [level1]** (Etapas 01 e 02).
-> `user-story.md`, `tech-spec.md` e `changelog.md` são gerados por [level2] (Etapa 03), antes da Etapa 04.
+> `interface.md` + `assets/interface/` são gerados na Etapa 03 quando o projeto tem UI (também em `.catalog/`).
+> `user-story.md`, `tech-spec.md` e `changelog.md` são gerados por [level2] (Etapa 04), antes da Etapa 05.
 
 ---
 

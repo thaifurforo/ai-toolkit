@@ -132,7 +132,7 @@ Para cada skill referenciada nas etapas do pipeline:
 
 ## writing-plans
 
-**Usado em:** Etapa 03 — criar plano de implementação antes de codar.
+**Usado em:** Etapa 04 — criar plano de implementação antes de codar.
 
 **Princípio:** O plano deve ser executável por alguém sem contexto do projeto.
 
@@ -172,7 +172,7 @@ Para cada skill referenciada nas etapas do pipeline:
 
 ## executing-plans
 
-**Usado em:** Etapa 04 — executar plano task a task.
+**Usado em:** Etapa 05 — executar plano task a task.
 
 **Processo:**
 
@@ -258,7 +258,7 @@ ANTES de afirmar qualquer status de sucesso:
 
 ## systematic-debugging
 
-**Usado em:** Etapa 04 — quando uma task bloqueia após 2+ tentativas.
+**Usado em:** Etapa 05 — quando uma task bloqueia após 2+ tentativas.
 
 **Princípio:** Hipótese → evidência → causa raiz. Nunca corrigir sintoma.
 
@@ -280,7 +280,7 @@ ANTES de afirmar qualquer status de sucesso:
 
 ## requesting-code-review
 
-**Usado em:** Etapa 05 — antes de abrir PR.
+**Usado em:** Etapa 06 — antes de abrir PR.
 
 **Processo:**
 1. Obter SHAs do git: `BASE_SHA=$(git rev-parse HEAD~1)` e `HEAD_SHA=$(git rev-parse HEAD)`
@@ -300,7 +300,7 @@ ANTES de afirmar qualquer status de sucesso:
 
 ## receiving-code-review
 
-**Usado em:** Etapa 05 — ao processar feedback de review.
+**Usado em:** Etapa 06 — ao processar feedback de review.
 
 **Princípio:** Verificação técnica, não performance. Evidência antes de implementar.
 
@@ -325,7 +325,7 @@ ANTES de afirmar qualquer status de sucesso:
 
 ## finishing-a-development-branch
 
-**Usado em:** Após Etapa 06 — finalizar branch de feature.
+**Usado em:** Após Etapa 07 — finalizar branch de feature.
 
 **Processo:**
 1. **Verificar testes:** rodar suite completa. Se falham → corrigir antes de continuar.

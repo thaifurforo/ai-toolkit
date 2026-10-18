@@ -1,4 +1,4 @@
-# Prompt 04 — Implementação (Loop Principal)
+# Prompt 05 — Implementação (Loop Principal)
 
 > **Context7 ([context7.com](https://context7.com), opcional)**
 > Busca documentação atualizada de bibliotecas diretamente na fonte. Acionar **obrigatoriamente** antes de usar qualquer lib externa.
@@ -200,5 +200,5 @@ Se perceber que o contexto está acima de ~40% da janela:
 ## Saída esperada
 Código + testes + commit message + checklist de conclusão + tracking atualizado conforme `project_tracking.tool`.
 
-## Próximo passo → Prompt 05 (Code Review)
+## Próximo passo → Prompt 06 (Code Review)
 Antes de abrir o PR. Acione `requesting-code-review` do Superpowers.

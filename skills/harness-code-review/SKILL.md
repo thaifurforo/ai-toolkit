@@ -3,7 +3,7 @@ name: harness-code-review
 description: Use quando for revisar código antes de abrir um PR, ou ao processar feedback de review. Ativado por "revisar", "code review", "review do PR", "blockers do review". É um sensor inferencial — executar após todos os sensores computacionais (lint, type check, testes) passarem.
 ---
 
-# Harness: Code Review (Etapa 05)
+# Harness: Code Review (Etapa 06)
 
 **Persona:** Engenheiro sênior especialista em qualidade.
 
@@ -38,7 +38,7 @@ description: Use quando for revisar código antes de abrir um PR, ou ao processa
 
 ## Copilot PR Review (se `project_tracking.tool: github`)
 
-Quando um PR está aberto e a ferramenta configurada é GitHub, o GitHub Copilot pode postar comentários de revisão nas diff lines. **Se aplicável, processá-los antes da Etapa 05 estar completa:**
+Quando um PR está aberto e a ferramenta configurada é GitHub, o GitHub Copilot pode postar comentários de revisão nas diff lines. **Se aplicável, processá-los antes da Etapa 06 estar completa:**
 
 1. Buscar comentários de revisão na ordem de preferência:
    - **gh CLI:** `gh pr view <número> --comments` ou `gh api repos/{owner}/{repo}/pulls/{number}/comments`
@@ -48,7 +48,7 @@ Quando um PR está aberto e a ferramenta configurada é GitHub, o GitHub Copilot
 3. Verificar threads resolvidos (`isResolved: true`)
 4. Iterar até não haver Blocker/Major aberto
 
-> **Regra:** Nunca marcar a Etapa 05 completa com threads Blocker/Major abertos no PR.
+> **Regra:** Nunca marcar a Etapa 06 completa com threads Blocker/Major abertos no PR.
 
 ## Formato Obrigatório de Descrição de PR
 

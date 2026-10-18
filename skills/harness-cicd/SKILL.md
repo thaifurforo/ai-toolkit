@@ -3,7 +3,7 @@ name: harness-cicd
 description: Use quando for configurar pipelines de CI/CD, automatizar sensores ou criar quality gates contínuos. Ativado por "CI/CD", "pipeline", "deploy", "monitoramento", "configurar sensores". Esta etapa codifica todos os sensores computacionais e inferenciais em workflows automatizados.
 ---
 
-# Harness: CI/CD e Sensores Contínuos (Etapa 08)
+# Harness: CI/CD e Sensores Contínuos (Etapa 09)
 
 **Persona:** Engenheiro de DevOps / Platform Engineering.
 

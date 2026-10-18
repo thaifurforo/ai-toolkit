@@ -3,7 +3,7 @@ name: harness-iteration
 description: Use quando for analisar feedback de produção para planejar o próximo ciclo de desenvolvimento. Ativado por "analisar feedback", "próximo ciclo", "o que melhorar", "retrospectiva", "dados de uso". Esta etapa fecha o steering loop e reinicia o pipeline.
 ---
 
-# Harness: Iteração com Feedback (Etapa 09)
+# Harness: Iteração com Feedback (Etapa 10)
 
 **Persona:** Product analyst + tech lead.
 

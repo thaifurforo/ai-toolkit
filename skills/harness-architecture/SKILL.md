@@ -14,13 +14,15 @@ description: Use quando for projetar arquitetura técnica de uma feature ou proj
 
 - **`context7-mcp`** *(se disponível)* — ANTES de recomendar qualquer biblioteca externa: `resolve_library_id` → `get_library_docs`; *fallback: busca web*
 - **`brainstorming`** *(se disponível)* — se ainda há alta incerteza técnica; *fallback: `12-fallback-skills.md § brainstorming`*
-- **`tlc-spec-driven`** *(se disponível)* — auto-skip para features pequenas — ir direto ao `harness-tasks`
+- **`tlc-spec-driven`** *(se disponível)* — auto-skip para features pequenas — ir direto ao `harness-tasks` (ou `harness-interface` se houver UI)
 
 ## Quando Usar
 
 Ativadores: "arquitetura", "stack", "design técnico", "padrão de camadas"
 
-**Pule esta etapa** para features simples (1–2 tasks óbvias) → vá direto para `harness-tasks`.
+**Pule esta etapa** para features simples (1–2 tasks óbvias) → se houver UI, `harness-interface`; senão `harness-tasks`.
+
+**Revisão pós-interface:** se `harness-interface` sinalizar mudança de contratos/limites, rode esta skill de novo, atualize `.catalog/architecture.md` / ADRs e obtenha aprovação antes de `harness-tasks`.
 
 ## Padrão de Camadas Obrigatório (padrão OpenAI)
 
@@ -51,9 +53,10 @@ Dependências fluem apenas para frente. Violações → linter bloqueia + mensag
 - `AGENTS.md` criado/atualizado
 - Tech Solution persistida conforme `project_tracking.tool` — ver `harness-engineering/references/11-project-tracking.md`
 
-## Próximo Passo → `harness-tasks`
+## Próximo Passo
 
-Use PRD + arquitetura como contexto.
+- Se o projeto tiver superfície de UI → **`harness-interface`** (PRD + arquitetura como contexto)
+- Se não tiver UI (CLI, lib, API-only, job) → **`harness-tasks`**
 
 ---
 

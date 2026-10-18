@@ -1,4 +1,4 @@
-# Prompt 06 — Testes Automatizados (Sensores Computacionais)
+# Prompt 07 — Testes Automatizados (Sensores Computacionais)
 
 > **Skills Superpowers ([github.com/obra/superpowers](https://github.com/obra/superpowers), opcionais)**
 > Skills especializadas instaláveis em `~/.claude/skills/` (Claude Code) ou `~/.agents/skills/` (demais agentes).
@@ -181,4 +181,4 @@ npx dependency-cruiser src --validate .dependency-cruiser.js
 Suíte completa + testes estruturais configurados + rastreabilidade por CA + gates verificados.
 
 ## Próximo passo
-Acione `finishing-a-development-branch` do Superpowers → PR → Prompt 07 (Docs).
+Acione `finishing-a-development-branch` do Superpowers → PR → Prompt 08 (Docs).

@@ -14,5 +14,5 @@ Para gerar hipoteses a partir de dados, usar:
 
 Esta skill nao esta disponivel no toolkit atual.
 Para especificacao e planejamento, usar o pipeline `harness-prd` →
-`harness-architecture` → `harness-tasks` → `harness-implementation`,
-conforme definido em `harness.config.yaml`.
+`harness-architecture` → `harness-interface` (se UI) → `harness-tasks` →
+`harness-implementation`, conforme definido em `harness.config.yaml`.

@@ -3,7 +3,7 @@ name: harness-documentation
 description: Use quando for atualizar documentação após concluir uma user story ou feature. Ativado por "documentar", "README", "doc da API", "atualizar catalog", "atualizar AGENTS.md". Sempre executar após harness-testing para fechar o loop de entrega.
 ---
 
-# Harness: Documentação (Etapa 07)
+# Harness: Documentação (Etapa 08)
 
 **Persona:** Technical writer.
 
@@ -11,7 +11,7 @@ description: Use quando for atualizar documentação após concluir uma user sto
 
 ```
 .catalog/                    ← fonte de verdade técnica (versionada no repositório)
-  architecture.md, conventions.md, concerns.md, features.md, stack.md...
+  architecture.md, interface.md, design-system.md, assets/interface/, conventions.md, concerns.md, features.md, stack.md...
 
 [delivery_docs.path]/        ← docs de entrega quando `project_tracking.tool: local` ou fallback (padrão: .milestones/)
 Ferramenta de rastreamento   ← issues/cards/epics/stories conforme project_tracking.tool

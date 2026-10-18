@@ -1,11 +1,13 @@
 ---
 name: harness-engineering
 description: >
-  Pipeline completo de desenvolvimento de software com IA — PRD → Arquitetura → Tasks → Código → Review → Testes → Docs → CI/CD → Iteração.
+  Pipeline completo de desenvolvimento de software com IA — PRD → Arquitetura → Interface (se UI) →
+  Tasks → Código → Review → Testes → Docs → CI/CD → Iteração.
   Baseado nas práticas de Harness Engineering da Anthropic, OpenAI e Thoughtworks/Martin Fowler:
   guias (feedforward) + sensores (feedback) que se auto-corrigem antes de chegar ao humano.
   Ative quando o usuário mencionar "criar PRD", "planejar feature", "iniciar projeto", "especificar",
-  "arquitetura", "quebrar em tasks", "implementar", "code review", "gerar testes", "documentar",
+  "arquitetura", "interface", "design system", "logo", "UX", "UI", "identidade visual", "mockup",
+  "quebrar em tasks", "implementar", "code review", "gerar testes", "documentar",
   "CI/CD", "analisar feedback", "por onde começo", "como organizo o projeto com IA",
   "quero construir um app", "vamos iniciar", "quero desenvolver", ou qualquer combinação dessas ações.
   Combine com skills disponíveis (tlc-spec-driven, superpowers, context7) para máxima efetividade — verificar disponibilidade via `harness.config.yaml`.
@@ -72,6 +74,8 @@ Milestones **não** são números de versão por padrão. Milestone versionada �
 AGENTS.md (≤100 linhas — tabela de roteamento)
   ↓ aponta para:
 .catalog/                    ← fonte de verdade técnica versionada no repositório
+  architecture.md, interface.md, design-system.md (se UI)
+  assets/interface/          ← logo, concept art, mockups gerados na etapa 03
 [delivery_docs.path]/        ← docs de entrega quando `project_tracking.tool: local` ou fallback
 Ferramenta de rastreamento   ← GitHub/Jira/Linear/Azure DevOps/markdown conforme `project_tracking.tool`
 GitHub Releases ou changelog ← conforme `release_management.strategy`
@@ -86,7 +90,7 @@ GitHub Releases ou changelog ← conforme `release_management.strategy`
 
 ---
 
-## Pipeline de 9 etapas
+## Pipeline de 10 etapas
 
 Para cada etapa, invoque a skill correspondente:
 
@@ -95,13 +99,14 @@ Para cada etapa, invoque a skill correspondente:
 | 00 | Setup do Projeto | *(referência interna)* | primeira invocação sem `harness.config.yaml` |
 | 01 | PRD | **`harness-prd`** | "criar PRD", "especificar", "iniciar projeto" |
 | 02 | Arquitetura Técnica | **`harness-architecture`** | "arquitetura", "stack", "design técnico" |
-| 03 | Breakdown de Tasks | **`harness-tasks`** | "quebrar em tasks", "planejar", "tasks" |
-| 04 | Implementação | **`harness-implementation`** | "implementar", "código", "implement T-XX" |
-| 05 | Code Review | **`harness-code-review`** | "revisar", "code review", "review do PR" |
-| 06 | Testes | **`harness-testing`** | "gerar testes", "cobertura", "testar" |
-| 07 | Documentação | **`harness-documentation`** | "documentar", "README", "atualizar catalog" |
-| 08 | CI/CD | **`harness-cicd`** | "CI/CD", "pipeline", "deploy" |
-| 09 | Iteração | **`harness-iteration`** | "analisar feedback", "próximo ciclo" |
+| 03 | Interface / Design System | **`harness-interface`** | "interface", "design system", "logo", "UX", "UI", "mockup" — **só se houver UI**; se UX mudar contratos → revisitar etapa 02 |
+| 04 | Breakdown de Tasks | **`harness-tasks`** | "quebrar em tasks", "planejar", "tasks" |
+| 05 | Implementação | **`harness-implementation`** | "implementar", "código", "implement T-XX" |
+| 06 | Code Review | **`harness-code-review`** | "revisar", "code review", "review do PR" |
+| 07 | Testes | **`harness-testing`** | "gerar testes", "cobertura", "testar" |
+| 08 | Documentação | **`harness-documentation`** | "documentar", "README", "atualizar catalog" |
+| 09 | CI/CD | **`harness-cicd`** | "CI/CD", "pipeline", "deploy" |
+| 10 | Iteração | **`harness-iteration`** | "analisar feedback", "próximo ciclo" |
 
 Cada skill é **autossuficiente**: contém a persona, o processo detalhado e o prompt template em `./prompt.md`.
 
@@ -115,7 +120,7 @@ Cada skill é **autossuficiente**: contém a persona, o processo detalhado e o p
 > Se não disponível → usar `references/12-fallback-skills.md` para o conteúdo equivalente.
 
 ### tlc-spec-driven *(se disponível — `skills.tlc_spec_driven: true`)*
-- **Quando usar:** etapas 01 (SPECIFY), 02 (DESIGN), 03 (TASKS), 04–06 (EXECUTE)
+- **Quando usar:** etapas 01 (SPECIFY), 02 (DESIGN), 03 (INTERFACE, se UI), 04 (TASKS), 05–07 (EXECUTE)
 - **Integração:** TLC fornece execução atômica com commits e critérios de verificação. Harness Engineering fornece os guias e sensores ao redor.
 - **Fallback:** continuar o pipeline sem TLC — cada sub-skill define seus próprios gates
 
@@ -128,17 +133,17 @@ Cada skill é **autossuficiente**: contém a persona, o processo detalhado e o p
 
 | Skill | Quando acionar | Fallback |
 |-------|---------------|---------|
-| `brainstorming` | Etapa 01/02 — escopo ainda indefinido | `12-fallback-skills.md § brainstorming` |
-| `writing-plans` | Etapa 03 — criar o breakdown de tasks | `12-fallback-skills.md § writing-plans` |
-| `executing-plans` | Etapa 04 — task por task | `12-fallback-skills.md § executing-plans` |
-| `test-driven-development` | Etapa 04+06 | `12-fallback-skills.md § test-driven-development` |
-| `requesting-code-review` | Etapa 05 — antes de abrir PR | `12-fallback-skills.md § requesting-code-review` |
-| `receiving-code-review` | Etapa 05 — processar feedback | `12-fallback-skills.md § receiving-code-review` |
-| `systematic-debugging` | Etapa 04 — quando uma task falha | `12-fallback-skills.md § systematic-debugging` |
-| `verification-before-completion` | Etapa 04/05/06 | `12-fallback-skills.md § verification-before-completion` |
-| `finishing-a-development-branch` | Após etapa 06 | `12-fallback-skills.md § finishing-a-development-branch` |
-| `dispatching-parallel-agents` | Etapa 03/04 — tasks independentes | `12-fallback-skills.md § dispatching-parallel-agents` |
-| `using-git-worktrees` | Etapa 04 — trabalho paralelo | *branches sequenciais* |
+| `brainstorming` | Etapa 01/02/03 — escopo ou direção visual indefinidos | `12-fallback-skills.md § brainstorming` |
+| `writing-plans` | Etapa 04 — criar o breakdown de tasks | `12-fallback-skills.md § writing-plans` |
+| `executing-plans` | Etapa 05 — task por task | `12-fallback-skills.md § executing-plans` |
+| `test-driven-development` | Etapa 05+07 | `12-fallback-skills.md § test-driven-development` |
+| `requesting-code-review` | Etapa 06 — antes de abrir PR | `12-fallback-skills.md § requesting-code-review` |
+| `receiving-code-review` | Etapa 06 — processar feedback | `12-fallback-skills.md § receiving-code-review` |
+| `systematic-debugging` | Etapa 05 — quando uma task falha | `12-fallback-skills.md § systematic-debugging` |
+| `verification-before-completion` | Etapa 05/06/07 | `12-fallback-skills.md § verification-before-completion` |
+| `finishing-a-development-branch` | Após etapa 07 | `12-fallback-skills.md § finishing-a-development-branch` |
+| `dispatching-parallel-agents` | Etapa 04/05 — tasks independentes | `12-fallback-skills.md § dispatching-parallel-agents` |
+| `using-git-worktrees` | Etapa 05 — trabalho paralelo | *branches sequenciais* |
 
 ---
 
@@ -146,23 +151,24 @@ Cada skill é **autossuficiente**: contém a persona, o processo detalhado e o p
 
 ### Completo (feature nova — agrupamento com múltiplas USs)
 ```
-01 PRD → 02 Arq → 03 Tasks + tracking de entrega →
+01 PRD → 02 Arq → 03 Interface (se UI; se contratos mudarem → revisitar 02) →
+04 Tasks + tracking de entrega →
   [por US, sequencial — nunca em paralelo]:
-    04 Código → 05 Review → 06 Testes → 07 Docs
+    05 Código → 06 Review → 07 Testes → 08 Docs
     ↓ PR aberto pelo agente
     ↓ humano revisa, aprova e mergea
     ↓ só então iniciar próxima US
-→ 08 CI/CD → Deploy → 09 Iteração
+→ 09 CI/CD → Deploy → 10 Iteração
 ```
 
 ### Rápido (bug fix / quick task)
 ```
-TLC "quick fix" → 04 Código → gate → commit
+TLC "quick fix" → 05 Código → gate → commit
 ```
 
 ### Paralelo (tasks independentes dentro de uma US)
 ```
-03 Tasks → dispatching-parallel-agents → [04+05+06] × N tasks → 07 Docs → PR
+04 Tasks → dispatching-parallel-agents → [05+06+07] × N tasks → 08 Docs → PR
 ```
 
 > **Paralelismo só para tasks dentro de uma US — nunca para USs entre si.**
@@ -171,8 +177,8 @@ TLC "quick fix" → 04 Código → gate → commit
 
 ```
 Para cada US do agrupamento (em ordem de dependência):
-  1. 03 tracking/docs criados conforme `project_tracking.tool`
-  2. 04 Código → 05 Review → 06 Testes → 07 Docs
+  1. 04 tracking/docs criados conforme `project_tracking.tool`
+  2. 05 Código → 06 Review → 07 Testes → 08 Docs
   3. PR aberto pelo agente com descrição completa
   4. PARAR — aguardar humano revisar, aprovar e mergear
   5. Só após merge confirmado → iniciar próxima US
@@ -180,7 +186,7 @@ Para cada US do agrupamento (em ordem de dependência):
 
 ### Release gate (PR para main)
 ```
-05 Review OK → 06 Testes OK → 07 Docs OK → PR aberto → checks verificados → merge (humano)
+06 Review OK → 07 Testes OK → 08 Docs OK → PR aberto → checks verificados → merge (humano)
 ```
 
 Com `release_management.strategy: github-auto-release`, o PR para `main` deve fechar issue com closing keyword e conter exatamente uma label `release:*`, mesmo que a gestão de projeto esteja em Jira, Linear ou Azure DevOps.
@@ -235,6 +241,7 @@ Types → Config → Repository → Service → Runtime → UI
 - Config: harness.config.yaml
 - PRD: `.catalog/PRD.md` ou `[delivery_docs.path]/[level1-nome]/prd.md`
 - Arquitetura: .catalog/architecture.md
+- Interface (se UI): .catalog/interface.md + .catalog/assets/interface/
 - Riscos/Dívidas: .catalog/concerns.md
 ```
 

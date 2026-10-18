@@ -12,7 +12,7 @@
 > **Integração com `tlc-spec-driven` (Tech Leads Club, opcional)**
 > A skill [`tlc-spec-driven`](https://agent-skills.techleads.club) organiza o desenvolvimento em três fases: **SPECIFY → DESIGN → EXECUTE**.
 > Esta etapa corresponde à fase **DESIGN**.
-> Auto-skip recomendado para features pequenas: se escopo e stack já estão claros, vá direto para `harness-tasks`.
+> Auto-skip recomendado para features pequenas: se escopo e stack já estão claros, vá para `harness-interface` (se houver UI) ou `harness-tasks`.
 > Sem a skill instalada, siga o prompt abaixo normalmente.
 
 ---
@@ -163,5 +163,7 @@ Feedback (sensores):
 Stack + diagramas Mermaid + modelo de dados + contratos de API + ADRs + riscos +
 mapa de sensores + AGENTS.md criado.
 
-## Próximo passo → Prompt 03 (Tasks)
+## Próximo passo
+- Com UI → Prompt 03 (Interface)
+- Sem UI → Prompt 04 (Tasks)
 Use arquitetura + PRD como contexto.
