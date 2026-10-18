@@ -52,8 +52,10 @@ Após puxar atualizações deste repo, publique as skills no diretório do agent
 ```bash
 ./scripts/sync-agents-skills.sh
 # destino padrão: ~/.agents/skills/
-# Windows: C:\Users\<você>\.agents\skills\
+# Windows: C:\Users\thaif\.agents\skills\  →  .\scripts\sync-agents-skills.ps1
 ```
+
+Se precisar publicar no GitHub `thaifurforo/ai-toolkit` a partir dos artefatos desta sessão, veja [`sync-artifacts/PUSH_AND_SYNC.md`](./sync-artifacts/PUSH_AND_SYNC.md) (patch + bundle da branch `cursor/harness-interface-58ef`).
 
 ---
 
