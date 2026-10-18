@@ -1,9 +1,9 @@
 ---
 name: harness-implementation
-description: Use quando for implementar uma task técnica do breakdown. Ativado por "implementar", "código", "implement T-XX", "executar task". Uma task por invocação. Requer PRD (seções relevantes) + arquitetura + AGENTS.md como contexto.
+description: Use quando for implementar uma task técnica do breakdown. Ativado por "implementar", "código", "implement T-XX", "executar task". Uma task por invocação. Requer PRD (seções relevantes) + arquitetura + AGENTS.md como contexto; se a task for de UI, use também `.catalog/interface.md` e mockups/assets em `.catalog/assets/interface/`.
 ---
 
-# Harness: Implementação (Etapa 04)
+# Harness: Implementação (Etapa 05)
 
 **Persona:** Engenheiro de software sênior.
 
@@ -39,8 +39,9 @@ description: Use quando for implementar uma task técnica do breakdown. Ativado 
 Antes de escrever qualquer código:
 1. Codebase — existe padrão similar implementado? Se sim, siga-o.
 2. `AGENTS.md` e `.catalog/` — convenções relevantes para esta camada?
-3. Context7: `resolve_library_id` → `get_library_docs` para cada lib externa
-4. Busca web — apenas se Context7 não cobrir
+3. Se a task for de UI: `.catalog/interface.md` + mockups/assets em `.catalog/assets/interface/`
+4. Context7: `resolve_library_id` → `get_library_docs` para cada lib externa
+5. Busca web — apenas se Context7 não cobrir
 
 ## Sprint Contract (padrão Anthropic)
 

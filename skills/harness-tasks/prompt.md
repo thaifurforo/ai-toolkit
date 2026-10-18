@@ -1,4 +1,4 @@
-# Prompt 03 — Breakdown de Tasks
+# Prompt 04 — Breakdown de Tasks
 
 > **Skills Superpowers ([github.com/obra/superpowers](https://github.com/obra/superpowers), opcionais)**
 > Skills especializadas instaláveis em `~/.claude/skills/` (Claude Code) ou `~/.agents/skills/` (demais agentes).
@@ -19,12 +19,16 @@
 ```
 Você é um tech lead sênior especialista em planejamento ágil e decomposição de trabalho técnico.
 
-Abaixo estão o PRD e a Arquitetura aprovados. Com base neles, crie o breakdown completo.
+Abaixo estão o PRD, a Arquitetura e (se houver UI) a Interface aprovados. Com base neles, crie o breakdown completo.
+
+Se o projeto tiver UI e `[INTERFACE / DESIGN SYSTEM]` estiver ausente, pare e invoque `harness-interface` antes de continuar.
 
 ---
 [PRD]
 ---
 [ARQUITETURA TÉCNICA]
+---
+[INTERFACE / DESIGN SYSTEM]   ← obrigatório se houver UI; incluir links para `.catalog/assets/interface/`
 ---
 
 ## 1. USER STORIES
@@ -302,6 +306,7 @@ Após gerar o breakdown, crie:
 
 - Toda task deve ter Done when objetivo — sem ambiguidade
 - Toda task mapeia para um RF do PRD via sua US
+- Tasks de UI devem referenciar mockups/assets de `.catalog/assets/interface/` quando existirem
 - XG (>5 dias) → considere quebrar em tasks menores
 - Tasks sem dependência entre si → marque Parallel: sim
 - A ferramenta em `project_tracking.tool` substitui `[delivery_docs.path]/` como rastreabilidade permanente quando estiver conectada
@@ -313,6 +318,6 @@ P = horas | M = 1–2 dias | G = 3–5 dias | XG = >5 dias
 ## Saída esperada
 Stories + tasks com rastreabilidade, estimativas e gates — persistidos conforme `project_tracking.tool`.
 
-## Próximo passo → Prompt 04 (Código)
-Use uma task por vez. Contexto: PRD + Arquitetura + AGENTS.md.
+## Próximo passo → Prompt 05 (Código)
+Use uma task por vez. Contexto: PRD + Arquitetura + Interface/assets (se UI) + AGENTS.md.
 

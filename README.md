@@ -24,7 +24,7 @@ Skills no padrão [agentskills.io](https://agentskills.io), compatíveis com Cla
 
 | Skill | Descrição |
 |-------|-----------|
-| [harness-engineering](./skills/harness-engineering/) | Pipeline completo de desenvolvimento com IA em 9 etapas (orquestrador + sub-skills) |
+| [harness-engineering](./skills/harness-engineering/) | Pipeline completo de desenvolvimento com IA em 10 etapas (orquestrador + sub-skills), incluindo interface/design system quando houver UI |
 
 → Documentação completa das skills em [`skills/README.md`](./skills/README.md)
 
@@ -37,10 +37,23 @@ Skills no padrão [agentskills.io](https://agentskills.io), compatíveis com Cla
 
 Acredito que o maior ganho com IA no desenvolvimento não vem de substituir o engenheiro, mas de **amplificar boas práticas de engenharia** com automação inteligente. As ferramentas aqui refletem isso:
 
-- **Guias (feedforward):** contexto certo antes de agir — PRD, arquitetura, convenções codificadas
+- **Guias (feedforward):** contexto certo antes de agir — PRD, arquitetura, interface/design system, convenções codificadas
 - **Sensores (feedback):** detecção automática de problemas — testes, linters, type check, code review por IA
 - **Rastreabilidade:** `RF-01 → US-01 → CA-01 → T-01 → teste` — nada cai entre as rachaduras
 - **Steering loop:** cada erro recorrente vira uma regra no harness — o sistema melhora a cada ciclo
+- **Interface antes das tasks:** quando há UI, `harness-interface` define design system, logo, mockups e assets; se o UX mudar contratos, a arquitetura é revista antes do breakdown
+
+---
+
+## 🔄 Sincronizar skills instaladas
+
+Após puxar atualizações deste repo, publique as skills no diretório do agente:
+
+```bash
+./scripts/sync-agents-skills.sh
+# destino padrão: ~/.agents/skills/
+# Windows: C:\Users\<você>\.agents\skills\
+```
 
 ---
 

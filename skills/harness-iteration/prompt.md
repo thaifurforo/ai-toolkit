@@ -1,4 +1,4 @@
-# Prompt 09 — Iteração com Feedback (Steering Loop)
+# Prompt 10 — Iteração com Feedback (Steering Loop)
 
 > **Skills Superpowers ([github.com/obra/superpowers](https://github.com/obra/superpowers), opcionais)**
 > Skills especializadas instaláveis em `~/.claude/skills/` (Claude Code) ou `~/.agents/skills/` (demais agentes).
@@ -120,7 +120,7 @@ Ação concreta:
 Baseado nos dados, recomende:
 
 **🔁 Iterar** — feature no caminho certo, ajustes incrementais
-- Volta ao Prompt 03 com backlog priorizado como novas tasks
+- Volta ao Prompt 04 com backlog priorizado como novas tasks
 - Atualiza o tracking configurado com novo agrupamento/backlog priorizado
 
 **🔄 Pivotar** — hipótese errada, precisa repensar escopo
@@ -166,6 +166,6 @@ Análise de padrões + gap de métricas + backlog + melhorias de harness (steeri
 decisão de rota + mini-PRD se necessário.
 
 ## Próximo passo
-🔁 Iterar → Prompt 03 (Tasks)
+🔁 Iterar → Prompt 04 (Tasks)
 🔄 Pivotar → Prompt 01 (PRD)
 ✅ Consolidar → .catalog/concerns.md atualizado + próxima feature

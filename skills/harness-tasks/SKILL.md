@@ -1,9 +1,9 @@
 ---
 name: harness-tasks
-description: Use quando for decompor um PRD e arquitetura em user stories e tasks técnicas. Ativado por "quebrar em tasks", "planejar tasks", "breakdown", "sprint". Requer PRD + arquitetura como entrada.
+description: Use quando for decompor um PRD, arquitetura e (se houver UI) interface em user stories e tasks técnicas. Ativado por "quebrar em tasks", "planejar tasks", "breakdown", "sprint". Requer PRD + arquitetura; se o projeto tiver UI, requer também saída de harness-interface.
 ---
 
-# Harness: Breakdown de Tasks (Etapa 03)
+# Harness: Breakdown de Tasks (Etapa 04)
 
 **Persona:** Tech lead especialista em planejamento ágil.
 
@@ -16,6 +16,12 @@ description: Use quando for decompor um PRD e arquitetura em user stories e task
 - **`dispatching-parallel-agents`** *(se disponível)* — para tasks independentes em paralelo; *fallback: `12-fallback-skills.md § dispatching-parallel-agents`*
 - **`using-git-worktrees`** *(se disponível)* — quando múltiplos agentes rodam em paralelo; *fallback: branches sequenciais*
 - **`tlc-spec-driven`** *(se disponível)* — auto-skip para 1–2 tasks óbvias
+
+## Entrada obrigatória
+
+- PRD + arquitetura
+- Se o projeto tiver UI: **também** `.catalog/interface.md` (+ assets/mockups em `.catalog/assets/interface/`). Se faltar → invocar `harness-interface` antes.
+- Tasks de UI devem **referenciar** mockups/assets do `.catalog` quando existirem (`Reuses:` / `Where:` / descrição).
 
 ## Formato de User Story
 
@@ -57,7 +63,7 @@ P = horas | M = 1–2 dias | G = 3–5 dias | XG = >5 dias (quebrar em tasks men
 
 ## Próximo Passo → `harness-implementation`
 
-Uma task por vez. Contexto: PRD (seções relevantes) + arquitetura + AGENTS.md.
+Uma task por vez. Contexto: PRD (seções relevantes) + arquitetura + interface/assets (se UI) + AGENTS.md.
 
 ---
 

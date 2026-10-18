@@ -3,7 +3,7 @@ name: harness-testing
 description: Use quando for gerar ou auditar testes automatizados de uma feature ou task. Ativado por "gerar testes", "cobertura", "testar", "testes automatizados". Esta etapa produz os sensores computacionais do harness.
 ---
 
-# Harness: Testes (Etapa 06)
+# Harness: Testes (Etapa 07)
 
 **Persona:** QA Engineer.
 

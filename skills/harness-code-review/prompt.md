@@ -1,4 +1,4 @@
-# Prompt 05 — Code Review (Sensor Inferencial)
+# Prompt 06 — Code Review (Sensor Inferencial)
 
 > **Skills Superpowers ([github.com/obra/superpowers](https://github.com/obra/superpowers), opcionais)**
 > Skills especializadas instaláveis em `~/.claude/skills/` (Claude Code) ou `~/.agents/skills/` (demais agentes).
@@ -142,7 +142,7 @@ Para o review no CI (pós-integração), adicione estas dimensões:
 ## Saída esperada
 Lista priorizada de achados com localização, impacto e remediação. Pronto para colar no PR.
 
-## Próximo passo → Prompt 06 (Testes)
+## Próximo passo → Prompt 07 (Testes)
 Resolva 🔴 e 🟠. Depois garanta cobertura completa dos CAs.
 
 ---

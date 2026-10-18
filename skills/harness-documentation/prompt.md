@@ -1,4 +1,4 @@
-# Prompt 07 — Documentação Técnica
+# Prompt 08 — Documentação Técnica
 
 ## Documentação é para agentes tanto quanto para humanos
 
@@ -167,7 +167,7 @@ A Wiki/portal **nunca copia** conteúdo — apenas linka para a fonte versionada
 - `AGENTS.md` atualizado com novos links/padrões
 - Wiki atualizada se mudança estrutural
 
-## Próximo passo → Prompt 08 (CI/CD)
+## Próximo passo → Prompt 09 (CI/CD)
 
 
 ---
@@ -367,4 +367,4 @@ referencie o spec gerado em `.catalog/integrations.md` — não duplique o conte
 - `AGENTS.md` atualizado
 - README de feature + API docs
 
-## Próximo passo → Prompt 08 (CI/CD)
+## Próximo passo → Prompt 09 (CI/CD)

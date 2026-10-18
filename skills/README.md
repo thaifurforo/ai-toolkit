@@ -9,7 +9,7 @@ Skills de agentes de IA no padrão [agentskills.io](https://agentskills.io) — 
 > *"O gargalo nunca foi a capacidade do agente de escrever código — foi a falta de estrutura, ferramentas e mecanismos de feedback ao seu redor."*
 > — OpenAI Engineering Blog, 2026
 
-Pipeline de 9 etapas baseado nas práticas de **Harness Engineering** da Anthropic, OpenAI e Thoughtworks/Martin Fowler. Transforma uma ideia em software confiável combinando **guias (feedforward)** e **sensores (feedback)** que permitem autocorreção antes de chegar ao humano.
+Pipeline de **10 etapas** baseado nas práticas de **Harness Engineering** da Anthropic, OpenAI e Thoughtworks/Martin Fowler. Transforma uma ideia em software confiável combinando **guias (feedforward)** e **sensores (feedback)** que permitem autocorreção antes de chegar ao humano.
 
 ### Estrutura
 
@@ -23,13 +23,14 @@ harness-engineering/       ← orquestrador: mental model, tabela de etapas, flu
 │   └── 13-release-management.md ← como versionar releases e changelogs
 ├── harness-prd/            ← 01. PRD com ProductBuddy (SPECIFY)
 ├── harness-architecture/   ← 02. Arquitetura técnica + harnessability map (DESIGN)
-├── harness-tasks/          ← 03. Breakdown de tasks + dependency map (TASKS)
-├── harness-implementation/ ← 04. Implementação com TDD + sprint contract (EXECUTE)
-├── harness-code-review/    ← 05. Code review como sensor inferencial (VERIFY)
-├── harness-testing/        ← 06. Testes automatizados como sensores computacionais
-├── harness-documentation/  ← 07. Documentação como sistema de record
-├── harness-cicd/           ← 08. CI/CD com shift-left + garbage collection sensor
-└── harness-iteration/      ← 09. Steering loop: feedback → melhorias do harness
+├── harness-interface/      ← 03. Interface / design system / assets (se UI)
+├── harness-tasks/          ← 04. Breakdown de tasks + dependency map (TASKS)
+├── harness-implementation/ ← 05. Implementação com TDD + sprint contract (EXECUTE)
+├── harness-code-review/    ← 06. Code review como sensor inferencial (VERIFY)
+├── harness-testing/        ← 07. Testes automatizados como sensores computacionais
+├── harness-documentation/  ← 08. Documentação como sistema de record
+├── harness-cicd/           ← 09. CI/CD com shift-left + garbage collection sensor
+└── harness-iteration/      ← 10. Steering loop: feedback → melhorias do harness
 ```
 
 Cada sub-skill contém:
@@ -44,19 +45,20 @@ Cada sub-skill contém:
 | *(referência interna)* | 00 · SETUP | Wizard interativo: gera `harness.config.yaml` com stack, ferramenta de tracking e skills disponíveis |
 | [harness-prd](./harness-prd/) | 01 · SPECIFY | PRD interativo com ProductBuddy: visão, personas, RFs, NFRs, restrições |
 | [harness-architecture](./harness-architecture/) | 02 · DESIGN | Arquitetura técnica + harnessability map: onde o agente vai precisar de guias/sensores |
-| [harness-tasks](./harness-tasks/) | 03 · TASKS | Breakdown de tasks com rastreabilidade RF → US → CA → T + dependency map |
-| [harness-implementation](./harness-implementation/) | 04 · EXECUTE | TDD + sprint contract + Context7 — agente nunca escreve código sem teste primeiro |
-| [harness-code-review](./harness-code-review/) | 05 · VERIFY | Code review em 6 dimensões como sensor inferencial antes do PR |
-| [harness-testing](./harness-testing/) | 06 · TEST | Testes unitários, integração, contrato e estruturais como sensores computacionais |
-| [harness-documentation](./harness-documentation/) | 07 · DOCUMENT | Documentação em `.catalog/` como sistema de record rastreável |
-| [harness-cicd](./harness-cicd/) | 08 · SHIP | CI/CD shift-left: sensores automáticos + garbage collection de código morto |
-| [harness-iteration](./harness-iteration/) | 09 · ITERATE | Steering loop: feedback de produção → melhorias do harness |
+| [harness-interface](./harness-interface/) | 03 · INTERFACE | Design system, identidade, UX/UI, logo/mockups/assets — só se houver UI; pode revisitar arquitetura se contratos mudarem |
+| [harness-tasks](./harness-tasks/) | 04 · TASKS | Breakdown de tasks com rastreabilidade RF → US → CA → T + dependency map |
+| [harness-implementation](./harness-implementation/) | 05 · EXECUTE | TDD + sprint contract + Context7 — agente nunca escreve código sem teste primeiro |
+| [harness-code-review](./harness-code-review/) | 06 · VERIFY | Code review em 6 dimensões como sensor inferencial antes do PR |
+| [harness-testing](./harness-testing/) | 07 · TEST | Testes unitários, integração, contrato e estruturais como sensores computacionais |
+| [harness-documentation](./harness-documentation/) | 08 · DOCUMENT | Documentação em `.catalog/` como sistema de record rastreável |
+| [harness-cicd](./harness-cicd/) | 09 · SHIP | CI/CD shift-left: sensores automáticos + garbage collection de código morto |
+| [harness-iteration](./harness-iteration/) | 10 · ITERATE | Steering loop: feedback de produção → melhorias do harness |
 
 ### O conceito central: Guias + Sensores
 
 | Tipo | Quando atua | Exemplos |
 |------|-------------|---------|
-| **Guias (feedforward)** | Antes de agir | PRD, arquitetura, AGENTS.md, linters com remediação inline |
+| **Guias (feedforward)** | Antes de agir | PRD, arquitetura, interface/design system, AGENTS.md, linters com remediação inline |
 | **Sensores computacionais** | A cada commit | Testes, type check, análise estrutural de camadas |
 | **Sensores inferenciais** | Antes do PR / no CI | Code review por IA, mutation testing |
 
@@ -87,6 +89,14 @@ cp -r skills/harness-* ~/.claude/skills/
 # Codex / GitHub Copilot CLI / Gemini CLI / Cursor
 cp -r skills/harness-* ~/.agents/skills/
 ```
+
+Ou use o script na raiz do repo:
+
+```bash
+./scripts/sync-agents-skills.sh
+```
+
+No Windows, o destino típico é `C:\Users\<você>\.agents\skills\`.
 
 Ou instale via seu gerenciador de skills de agente.
 
